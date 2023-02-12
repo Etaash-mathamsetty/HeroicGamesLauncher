@@ -579,7 +579,6 @@ ipcMain.handle('callTool', async (event, { tool, exe, appName, runner }) => {
 
   switch (tool) {
     case 'winetricks':
-      await verifyWinePrefix(gameSettings)
       await Winetricks.run(wineVersion, winePrefix, event)
       break
     case 'winecfg':
@@ -589,7 +588,10 @@ ipcMain.handle('callTool', async (event, { tool, exe, appName, runner }) => {
             commandParts: ['winecfg'],
             wait: false
           })
-        : game.runWineCommand({ commandParts: ['winecfg'] })
+        : game.runWineCommand({
+            gameSettings: gameSettings,
+            commandParts: ['winecfg']
+          })
       break
     case 'runExe':
       if (exe) {
@@ -598,10 +600,11 @@ ipcMain.handle('callTool', async (event, { tool, exe, appName, runner }) => {
           ? runWineCommand({
               gameSettings,
               commandParts: [exe],
-              wait: false,
-              startFolder: workingDir
+              startFolder: workingDir,
+              wait: false
             })
           : game.runWineCommand({
+              gameSettings,
               commandParts: [exe],
               startFolder: workingDir
             })
@@ -879,13 +882,28 @@ ipcMain.handle('requestSettings', async (event, appName) => {
   return mapOtherSettings(config)
 })
 
-ipcMain.handle('toggleDXVK', async (event, { winePrefix, winePath, action }) =>
-  DXVK.installRemove(winePrefix, winePath, 'dxvk', action)
+ipcMain.handle(
+  'toggleDXVK',
+  async (event, { winePrefix, winePath, action, appName }) =>
+    DXVK.installRemove(
+      winePrefix,
+      winePath,
+      'dxvk',
+      action,
+      await GameConfig.get(appName).getSettings()
+    )
 )
 
-ipcMain.on('toggleVKD3D', (event, { winePrefix, winePath, action }) => {
-  DXVK.installRemove(winePrefix, winePath, 'vkd3d', action)
-})
+ipcMain.on(
+  'toggleVKD3D',
+  (event, { winePrefix, winePath, action, appName }) => {
+    GameConfig.get(appName)
+      .getSettings()
+      .then((gameSettings) => {
+        DXVK.installRemove(winePrefix, winePath, 'vkd3d', action, gameSettings)
+      })
+  }
+)
 
 ipcMain.handle('writeConfig', (event, { appName, config }) => {
   logInfo(
