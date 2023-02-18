@@ -244,12 +244,13 @@ export async function stop(appName: string): Promise<void> {
     const split = executable.split('/')
     const exe = split[split.length - 1]
     killPattern(exe)
-    await runWineCommand({
-      gameSettings,
-      commandParts: ['wineboot', '-k'],
-      wait: true,
-      protonVerb: 'waitforexitandrun'
-    })
+    if (!isNativeApp(appName))
+      await runWineCommand({
+        gameSettings,
+        commandParts: ['wineboot', '-k'],
+        wait: true,
+        protonVerb: 'waitforexitandrun'
+      })
   }
 }
 

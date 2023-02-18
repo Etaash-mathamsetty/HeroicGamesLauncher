@@ -1018,12 +1018,13 @@ class LegendaryGame extends Game {
     // @adityaruplaha: this is kinda arbitary and I don't understand it.
     const pattern = process.platform === 'linux' ? this.appName : 'legendary'
     killPattern(pattern)
-    await runWineCommand({
-      gameSettings,
-      commandParts: ['wineboot', '-k'],
-      wait: true,
-      protonVerb: 'waitforexitandrun'
-    })
+    if (!this.isNative())
+      await runWineCommand({
+        gameSettings,
+        commandParts: ['wineboot', '-k'],
+        wait: true,
+        protonVerb: 'waitforexitandrun'
+      })
   }
 }
 

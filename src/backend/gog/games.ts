@@ -891,12 +891,13 @@ class GOGGame extends Game {
     const gameSettings = await this.getSettings()
     const pattern = isLinux ? this.appName : 'gogdl'
     killPattern(pattern)
-    await runWineCommand({
-      gameSettings,
-      commandParts: ['wineboot', '-k'],
-      wait: true,
-      protonVerb: 'waitforexitandrun'
-    })
+    if (!this.isNative())
+      await runWineCommand({
+        gameSettings,
+        commandParts: ['wineboot', '-k'],
+        wait: true,
+        protonVerb: 'waitforexitandrun'
+      })
   }
 }
 
