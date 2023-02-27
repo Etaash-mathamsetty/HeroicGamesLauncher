@@ -364,15 +364,36 @@ class LegendaryGame extends Game {
     return { status: 'done' }
   }
 
+  /*   public async moveInstall(newInstallPath: string) {
+    const oldInstallPath = this.getGameInfo().install.install_path!
+
+    newInstallPath = join(newInstallPath, basename(oldInstallPath))
+
+    const command = `mv -f '${oldInstallPath}' '${newInstallPath}'`
+
+    logInfo(
+      [`Moving ${this.appName} to ${newInstallPath} with`, command],
+      LogPrefix.Legendary
+    )
+
+    await execAsync(command)
+      .then(async () => {
+        await LegendaryLibrary.get().changeGameInstallPath(
+          this.appName,
+          newInstallPath
+        )
+      })
+      .catch((error) => {
+        logError(
+          [`Failed to move ${this.appName}:`, error],
+          LogPrefix.Legendary
+        )
+      })
+    return newInstallPath
+  } */
+
   // used when downloading games, store the download size read from Legendary's output
   currentDownloadSize = 0
-  lastProgress = {
-    eta: '99:99:99',
-    percent: 0,
-    bytes: '0.00MiB',
-    downSpeed: 0,
-    diskSpeed: 0
-  }
 
   public onInstallOrUpdateOutput(
     action: 'installing' | 'updating',
@@ -387,29 +408,27 @@ class LegendaryGame extends Game {
       this.currentDownloadSize = parseFloat(downloadSizeMatch[1])
     }
 
-    // parse log for eta
-    const etaMatch = data.match(/ETA: (\d\d:\d\d:\d\d)/m)
-    const eta =
-      etaMatch && etaMatch?.length >= 2 ? etaMatch[1] : this.lastProgress.eta
-
     // parse log for game download progress
+    const etaMatch = data.match(/ETA: (\d\d:\d\d:\d\d)/m)
     const bytesMatch = data.match(/Downloaded: (\S+.) MiB/m)
-    const bytes =
-      bytesMatch && bytesMatch?.length >= 2
-        ? bytesMatch[1]
-        : this.lastProgress.bytes
+    if (!etaMatch || !bytesMatch) {
+      return
+    }
 
     // parse log for download speed
     const downSpeedMBytes = data.match(/Download\t- (\S+.) MiB/m)
     const downSpeed = !Number.isNaN(Number(downSpeedMBytes?.at(1)))
       ? Number(downSpeedMBytes?.at(1))
-      : this.lastProgress.downSpeed
+      : 0
 
     // parse disk write speed
     const diskSpeedMBytes = data.match(/Disk\t- (\S+.) MiB/m)
     const diskSpeed = !Number.isNaN(Number(diskSpeedMBytes?.at(1)))
       ? Number(diskSpeedMBytes?.at(1))
-      : this.lastProgress.diskSpeed
+      : 0
+
+    const eta = etaMatch[1]
+    const bytes = bytesMatch[1]
 
     // original is in bytes, convert to MiB with 2 decimals
     totalDownloadSize =
@@ -432,21 +451,17 @@ class LegendaryGame extends Game {
       LogPrefix.Legendary
     )
 
-    const newProgress = {
-      eta: eta,
-      percent,
-      bytes: `${bytes}MiB`,
-      downSpeed,
-      diskSpeed
-    }
-
-    this.lastProgress = newProgress
-
     sendFrontendMessage(`progressUpdate-${this.appName}`, {
       appName: this.appName,
       runner: 'legendary',
       status: action,
-      progress: newProgress
+      progress: {
+        eta: eta,
+        percent,
+        bytes: `${bytes}MiB`,
+        downSpeed,
+        diskSpeed
+      }
     })
   }
 
