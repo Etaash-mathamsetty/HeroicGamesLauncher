@@ -623,7 +623,12 @@ export interface PCGamingWikiInfo {
 
 export interface AppleGamingWikiInfo {
   crossoverRating: string
+  wineRating: string
   crossoverLink: string
+}
+
+export interface GamesDBInfo {
+  steamID: string
 }
 
 export interface WikiInfo {
@@ -631,6 +636,7 @@ export interface WikiInfo {
   pcgamingwiki: PCGamingWikiInfo | null
   applegamingwiki: AppleGamingWikiInfo | null
   howlongtobeat: HowLongToBeatEntry | null
+  gamesdb: GamesDBInfo | null
 }
 
 /**
