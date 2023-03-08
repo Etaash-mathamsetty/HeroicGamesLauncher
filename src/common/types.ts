@@ -124,13 +124,11 @@ export interface GameSettings {
   eacRuntime: boolean
   enableDXVKFpsLimit: boolean
   enableEsync: boolean
-  enableFSR: boolean
   enableFsync: boolean
   enviromentOptions: EnviromentVariable[]
   ignoreGameUpdates: boolean
   language: string
   launcherArgs: string
-  maxSharpness?: number
   nvidiaPrime: boolean
   offlineMode: boolean
   otherOptions?: string //deprecated

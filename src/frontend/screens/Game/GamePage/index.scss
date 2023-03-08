@@ -266,6 +266,8 @@
 
 .gameRequirements {
   align-self: flex-start;
+  padding: var(--space-sm);
+  min-width: 20vw;
   overflow: auto;
 }
 

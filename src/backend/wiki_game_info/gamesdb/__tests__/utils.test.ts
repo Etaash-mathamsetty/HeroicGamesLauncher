@@ -28,7 +28,13 @@ describe('getInfoFromGamesDB', () => {
   })
 
   test('catches axios throws', async () => {
-    jest.spyOn(axios, 'get').mockRejectedValueOnce(new Error('Failed'))
+    jest.spyOn(axios, 'get').mockRejectedValueOnce({
+      response: {
+        data: {
+          error_description: 'Failed'
+        }
+      }
+    })
 
     const result = await getInfoFromGamesDB('Jotun', 'Grouse', 'legendary')
     expect(result).toStrictEqual({ steamID: '' })
