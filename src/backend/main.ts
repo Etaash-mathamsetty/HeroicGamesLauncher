@@ -832,7 +832,7 @@ ipcMain.handle('authGOG', async (event, code) => GOGUser.login(code))
 ipcMain.handle('logoutLegendary', LegendaryUser.logout)
 ipcMain.on('logoutGOG', GOGUser.logout)
 ipcMain.handle('getLocalPeloadPath', async () => {
-  return fixAsarPath(join(publicDir, 'webviewPreload.js'))
+  return fixAsarPath(join('file://', publicDir, 'webviewPreload.js'))
 })
 
 ipcMain.handle('getAlternativeWine', async () =>
@@ -1492,6 +1492,10 @@ ipcMain.handle('egsSync', async (event, args) => {
 
 ipcMain.handle('syncGOGSaves', async (event, gogSaves, appName, arg) =>
   getGame(appName, 'gog').syncSaves(arg, '', gogSaves)
+)
+
+ipcMain.handle('getGOGLaunchOptions', async (event, appName: string) =>
+  GOGLibrary.get().getLaunchOptions(appName)
 )
 
 ipcMain.handle(
