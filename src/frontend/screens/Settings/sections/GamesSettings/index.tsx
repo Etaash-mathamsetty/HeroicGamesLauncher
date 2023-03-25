@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import {
   AlternativeExe,
   AutoDXVK,
+  AutoDXVKNVAPI,
   AutoVKD3D,
   BattlEyeRuntime,
   CrossoverBottle,
@@ -95,6 +96,8 @@ export default function GamesSettings({ useDetails = true }: Props) {
                 <AutoDXVK />
                 {isLinux && (
                   <>
+                    <AutoDXVKNVAPI />
+
                     <AutoVKD3D />
 
                     <EacRuntime />
