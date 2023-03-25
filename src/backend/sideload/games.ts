@@ -215,7 +215,7 @@ export async function launchApp(appName: string): Promise<boolean> {
       gameSettings.wineVersion = globalSettings.wineVersion
     }
 
-    await runWineCommand({
+    runWineCommand({
       commandParts: [executable, launcherArgs ?? ''],
       gameSettings,
       wait: false,
