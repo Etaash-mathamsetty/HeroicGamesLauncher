@@ -203,6 +203,12 @@ export async function launchApp(appName: string): Promise<boolean> {
         }
       )
 
+      sendFrontendMessage('gameStatusUpdate', {
+        appName: appName,
+        runner: 'sideload',
+        status: 'playing'
+      })
+
       launchCleanup(rpcClient)
       // TODO: check and revert to previous permissions
       if (isLinux || (isMac && !executable.endsWith('.app'))) {
@@ -237,6 +243,12 @@ export async function launchApp(appName: string): Promise<boolean> {
         logFile: appLogFileLocation(appName),
         logMessagePrefix: LogPrefix.Backend
       }
+    })
+
+    sendFrontendMessage('gameStatusUpdate', {
+      appName: appName,
+      runner: 'sideload',
+      status: 'playing'
     })
 
     launchCleanup(rpcClient)
