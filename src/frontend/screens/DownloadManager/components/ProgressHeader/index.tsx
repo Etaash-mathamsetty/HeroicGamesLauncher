@@ -118,6 +118,7 @@ export default function ProgressHeader(props: {
             <Box sx={{ minWidth: 35 }}>
               <Typography
                 variant="subtitle1"
+                fontFamily="var(--primary-font-family)"
                 title={t('download-manager.ETA', 'Estimated Time')}
               >
                 {progress.eta ?? '00.00.00'}
