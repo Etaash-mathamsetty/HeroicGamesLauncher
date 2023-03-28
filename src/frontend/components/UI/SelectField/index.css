@@ -29,7 +29,7 @@
     calc(100% - 15px) calc(50% + 1px), calc(100% - 40px) 50%;
   background-size: 5px 5px, 5px 5px, 1px 70%;
   background-repeat: no-repeat;
-  margin: 0;
+  margin-bottom: var(--space-md);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
