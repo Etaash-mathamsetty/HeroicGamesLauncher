@@ -306,9 +306,6 @@
             "message": "Wine uses what is called a WINEPREFIX to encapsulate Windows applications. This prefix contains the Wine configuration files and a reproduction of the file hierarchy of C: (the main disk on a Windows OS). In this reproduction of the C: drive, your game save files and dependencies installed via winetricks are stored."
         }
     },
-    "install": {
-        "path": "Select Install Path"
-    },
     "label": {
         "loading": "Loading"
     },
@@ -636,7 +633,7 @@
     "two_col_table": {
         "save_hint": "Changes in this table are not saved automatically. Click the + button"
     },
-    "Update Available!": "",
+    "Update Available!": "Update Available!",
     "userselector": {
         "cancel": "Cancel",
         "discord": "Discord",
