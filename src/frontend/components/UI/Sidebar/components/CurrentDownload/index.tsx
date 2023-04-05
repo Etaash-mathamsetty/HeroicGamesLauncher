@@ -75,10 +75,11 @@ export default React.memo(function CurrentDownload({ appName, runner }: Props) {
                 value={progress.percent || 0}
               />
             </Box>
-            <Box sx={{ minWidth: 35 }}>
-              <Typography variant="body2">{`${Math.round(
-                progress.percent || 0
-              )}%`}</Typography>
+            <Box className="MuiBox-body" sx={{ minWidth: 35 }}>
+              <Typography
+                fontFamily="var(--primary-font-family)"
+                variant="body2"
+              >{`${Math.round(progress.percent || 0)}%`}</Typography>
             </Box>
           </Box>
         </div>

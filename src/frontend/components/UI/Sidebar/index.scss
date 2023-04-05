@@ -175,6 +175,10 @@
   .currentDownloads {
     .statusIcon {
       display: block;
+
+      .MuiBadge-root > .MuiBadge-badge {
+        font-family: var(--primary-font-family);
+      }
     }
     .full-size {
       display: none;
