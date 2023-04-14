@@ -16,14 +16,11 @@ describe('Utilities - Rest', () => {
     expect(size).toBeGreaterThan(0)
   })
 
-  testSkipOnWindows(
-    'get folder size of non existing folder returns NaN',
-    () => {
-      const size = getFolderSize('./not_existing')
-      expect(typeof size).toBe('number')
-      expect(size).toBeNaN()
-    }
-  )
+  test('get folder size of non existing folder returns NaN', () => {
+    const size = getFolderSize('./not_existing')
+    expect(typeof size).toBe('number')
+    expect(size).toBeNaN()
+  })
 
   test('unlink of folder fails', async () => {
     expect(() => {
