@@ -44,7 +44,7 @@ import {
   WineInstallation,
   WineCommandArgs
 } from 'common/types'
-import { spawn } from 'child_process'
+import { spawn, spawnSync } from 'child_process'
 import shlex from 'shlex'
 import { isOnline } from './online_monitor'
 import { showDialogBoxModalAuto } from './dialog/dialog'
@@ -465,6 +465,16 @@ export async function verifyWinePrefix(
 
   if (!existsSync(winePrefix)) {
     mkdirSync(winePrefix, { recursive: true })
+  }
+
+  // if wineserver is running in prefix, then return early. This prevents wineboot from hanging. Fails if wineserver is not running
+  if(wineVersion.wineserver)
+  {
+    const ret = spawnSync(wineVersion.wineserver, ['-k0'] )
+    if(ret.status === 0)
+    {
+      return { res: { stdout: ret.stdout.toString(), stderr: ret.stderr.toString() }, updated: false }
+    }
   }
 
   // If the registry isn't available yet, things like DXVK installers might fail. So we have to wait on wineboot then
