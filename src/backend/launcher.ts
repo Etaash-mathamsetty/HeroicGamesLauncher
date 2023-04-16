@@ -468,12 +468,13 @@ export async function verifyWinePrefix(
   }
 
   // if wineserver is running in prefix, then return early. This prevents wineboot from hanging. Fails if wineserver is not running
-  if(wineVersion.wineserver)
-  {
-    const ret = spawnSync(wineVersion.wineserver, ['-k0'] )
-    if(ret.status === 0)
-    {
-      return { res: { stdout: ret.stdout.toString(), stderr: ret.stderr.toString() }, updated: false }
+  if (wineVersion.wineserver) {
+    const ret = spawnSync(wineVersion.wineserver, ['-k0'])
+    if (ret.status === 0) {
+      return {
+        res: { stdout: ret.stdout.toString(), stderr: ret.stderr.toString() },
+        updated: false
+      }
     }
   }
 
