@@ -236,7 +236,7 @@
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
     "@vitejs/plugin-react-swc": "^3.2.0",
-    "electron": "^24.0.0",
+    "electron": "^24",
     "electron-builder": "^23.6.0",
     "electron-devtools-installer": "^3.2.0",
     "eslint": "^8.36.0",
