@@ -138,6 +138,7 @@ import {
   libraryManagerMap
 } from './storeManagers'
 import { setupUbisoftConnect } from 'backend/storeManagers/legendary/setup'
+import { refreshWineVersionInfo } from './api/wine'
 
 app.commandLine?.appendSwitch('remote-debugging-port', '9222')
 
@@ -166,6 +167,10 @@ async function initializeWindow(): Promise<BrowserWindow> {
     DXVK.getLatest()
     Winetricks.download()
   }, 2500)
+
+  if (!isWindows) {
+    refreshWineVersionInfo(true)
+  }
 
   GlobalConfig.get()
 
