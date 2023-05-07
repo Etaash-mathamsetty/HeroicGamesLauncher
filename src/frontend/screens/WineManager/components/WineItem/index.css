@@ -31,8 +31,10 @@
   position: relative;
   cursor: default;
   place-self: center;
-  border-bottom: 1px solid gray;
+  background-color: var(--input-background);
   padding: var(--space-xs-fixed) 0;
+  margin-bottom: var(--space-sm);
+  border-radius: var(--space-xs);
 }
 
 .wineManagerTitleList {
@@ -40,6 +42,7 @@
   font-size: var(--text-md);
   font-weight: bold;
   text-transform: capitalize;
+  margin-left: var(--space-sm);
 }
 
 .wineManagerListItem > a {
