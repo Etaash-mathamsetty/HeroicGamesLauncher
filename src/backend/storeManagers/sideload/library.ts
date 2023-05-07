@@ -81,8 +81,8 @@ export function getGameInfo(
   appName: string,
   forceReload?: boolean
 ): GameInfo | undefined {
-  logWarning(`getGameInfo not implemented on Sideload Library Manager`)
-  return undefined
+  const current = libraryStore.get('games', [])
+  return current.find((value) => value.app_name === appName)
 }
 
 export async function listUpdateableGames(): Promise<string[]> {

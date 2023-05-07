@@ -115,7 +115,7 @@
 }
 
 .gameCard .store-icon {
-  border-radius: 10px;
+  border-radius: var(--space-xs);
   position: absolute;
   right: 5px;
   top: 4px;
