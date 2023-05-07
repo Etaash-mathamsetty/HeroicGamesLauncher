@@ -15,6 +15,7 @@
   opacity: 0.3;
   grid-column: 1;
   grid-row: 1;
+  filter: blur(3px);
 }
 
 .loginContentWrapper {
@@ -39,7 +40,7 @@
   user-select: none;
   flex-wrap: wrap;
   background-color: var(--body-background);
-  opacity: 0.96;
+  opacity: 0.9;
   padding: var(--wrapper-padding);
   border-radius: 10px;
   margin-top: 25%;
