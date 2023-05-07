@@ -40,7 +40,7 @@
   user-select: none;
   flex-wrap: wrap;
   background-color: var(--body-background);
-  opacity: 0.9;
+  opacity: 0.93;
   padding: var(--wrapper-padding);
   border-radius: 10px;
   margin-top: 25%;
