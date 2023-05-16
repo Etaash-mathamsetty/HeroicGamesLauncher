@@ -33,7 +33,6 @@
   display: flex;
   align-items: center;
   padding: 0 var(--space-xs-fixed) m;
-  border-right: white;
 }
 
 .tableFieldWrapper td:last-child {
