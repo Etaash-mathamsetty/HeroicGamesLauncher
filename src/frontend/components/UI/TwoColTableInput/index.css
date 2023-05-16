@@ -33,6 +33,7 @@
   display: flex;
   align-items: center;
   padding: 0 var(--space-xs-fixed) m;
+  border-right: white;
 }
 
 .tableFieldWrapper td:last-child {
@@ -44,6 +45,7 @@
   text-align: left;
   overflow: auto;
   white-space: nowrap;
+  margin-left: var(--space-xs);
 }
 
 .tableFieldWrapper tbody tr:nth-child(even),
