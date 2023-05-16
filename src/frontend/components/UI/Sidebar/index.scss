@@ -110,7 +110,7 @@
 
 .currentDownloads {
   grid-area: utils;
-  align-self: end;
+  text-align: default;
   margin: 0 var(--space-3xs) var(--sidebar-vertical-padding)
     var(--sidebar-horizontal-padding);
 }
@@ -173,8 +173,11 @@
   }
 
   .currentDownloads {
+    margin: 0;
+
     .statusIcon {
       display: block;
+      text-align: center;
 
       .MuiBadge-root > .MuiBadge-badge {
         font-family: var(--primary-font-family);

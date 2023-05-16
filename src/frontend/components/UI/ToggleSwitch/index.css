@@ -26,9 +26,6 @@
   border-radius: var(--space-3xs);
   grid-area: check;
   color: var(--background);
-  font-size: var(--text-xl);
-  line-height: var(--space-lg-fixed);
-  font-weight: var(--extrabold);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -39,13 +36,24 @@
   color: var(--text-default);
 }
 
+.hiddenCheckbox:checked + .toggleSwitchWrapper .toggleSwitch {
+  display: block;
+  margin-left: calc(0.95 * var(--space-lg));
+  margin-top: calc(-1.22 * var(--space-lg));
+  width: 7px;
+  height: 14px;
+  border: solid var(--background);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
 .toggleSwitchWrapper:hover span {
   transition: 350ms;
   color: var(--background);
 }
 
 .hiddenCheckbox:checked + .toggleSwitchWrapper:before {
-  content: '\2713';
+  content: '';
   background: var(--accent);
 }
 
