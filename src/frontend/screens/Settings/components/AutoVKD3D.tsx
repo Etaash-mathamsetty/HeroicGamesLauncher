@@ -47,7 +47,7 @@ const AutoVKD3D = () => {
         icon={faCircleInfo}
         title={t(
           'help.vkd3d',
-          'VKD3D is a Vulkan-based translational layer for DirectX 12 games. Enabling may improve compatibility significantly. Has no effect on older DirectX games.'
+          'VKD3D is a Vulkan-based translational layer for DirectX 12 games. Enabling may improve compatibility significantly. Has no effect on older DirectX games, requires DXVK.'
         )}
       />
     </div>
