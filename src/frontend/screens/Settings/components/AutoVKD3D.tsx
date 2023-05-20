@@ -15,6 +15,7 @@ const AutoVKD3D = () => {
   )
   const { appName } = useContext(SettingsContext)
   const [wineVersion] = useSetting('wineVersion', defaultWineVersion)
+  const [autoInstallDxvk] = useSetting('autoInstallDxvk', false)
 
   const isProton = wineVersion.type === 'proton'
 
@@ -38,6 +39,7 @@ const AutoVKD3D = () => {
         value={autoInstallVkd3d}
         handleChange={handleAutoInstallVkd3d}
         title={t('setting.autovkd3d', 'Auto Install/Update VKD3D on Prefix')}
+        disabled={!autoInstallDxvk}
       />
 
       <FontAwesomeIcon

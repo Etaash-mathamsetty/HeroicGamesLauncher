@@ -13,6 +13,10 @@ const AutoDXVK = () => {
     'autoInstallDxvk',
     false
   )
+  const [autoInstallVkd3d, setAutoInstallVkd3d] = useSetting(
+    'autoInstallVkd3d',
+    false
+  )
   const [wineVersion] = useSetting('wineVersion', defaultWineVersion)
   const { appName } = useContext(SettingsContext)
   const [installingDxvk, setInstallingDxvk] = React.useState(false)
@@ -28,6 +32,14 @@ const AutoDXVK = () => {
       appName,
       action
     })
+
+    if (autoInstallVkd3d && action === 'restore') {
+      await window.api.toggleVKD3D({
+        appName,
+        action
+      })
+      setAutoInstallVkd3d(false)
+    }
 
     setInstallingDxvk(false)
     if (res) {
