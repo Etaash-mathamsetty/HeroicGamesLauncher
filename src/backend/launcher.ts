@@ -299,7 +299,13 @@ function setupWineEnvVars(gameSettings: GameSettings, gameId = '0') {
     case 'crossover':
       ret.CX_BOTTLE = wineCrossoverBottle
   }
-
+  if (gameSettings.autoInstallDxvk || wineVersion.type === 'proton') {
+    ret.DXVK_STATE_CACHE_PATH = winePrefix
+    ret.DXVK_LOG_PATH = winePrefix
+  }
+  if (gameSettings.autoInstallVkd3d || wineVersion.type === 'proton') {
+    ret.VKD3D_SHADER_CACHE_PATH = winePrefix
+  }
   if (gameSettings.showFps) {
     ret.DXVK_HUD = 'fps'
   }
