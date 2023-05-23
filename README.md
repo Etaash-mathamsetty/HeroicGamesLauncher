@@ -45,6 +45,7 @@ Heroic is built with Web Technologies:
     - [Building with VS Code](#building-with-vs-code)
     - [Quickly testing/debugging Heroic on your own system](#quickly-testingdebugging-heroic-on-your-own-system)
     - [Development Using a Container](#development-using-a-container)
+    - [Testing with Docker](#testing-with-docker)
   - [Sponsors](#sponsors)
   - [Screenshots](#screenshots)
   - [Credits](#credits)
@@ -294,15 +295,33 @@ And you should be good to go, code and build away!
 
 </details>
 
+### Testing with Docker
+
+It is recommended to run end to end tests with Docker so you don't alter your local config files or have your local config files interfere with the tests.
+
+To run e2e tests on the unpackaged app running in dev mode.
+From the root of your local Heroic directory, run:
+
+```bash
+yarn test:e2e
+```
+
+To run e2e tests on the packaged app.
+From the root of your local Heroic directory, run:
+
+```bash
+yarn test:e2ePackaged
+```
+
 ## Sponsors
 
 Thanks [Weblate](https://weblate.org/en/) for hosting our translations
 
 ![weblate](https://s.weblate.org/cdn/Logo-Darktext-borders.png)
 
-Thanks [Signpath](https://about.signpath.io) for providing free signing of Windows binaries
+Thanks [Signpath](https://signpath.io/?utm_source=foundation&utm_medium=github&utm_campaign=heroicgameslauncher) for providing free signing of Windows binaries
 
-![signpath](https://user-images.githubusercontent.com/26871415/182468471-6ef4aac6-a4e2-4ae8-93ef-d638cd01627d.png)
+[![signpath](https://user-images.githubusercontent.com/26871415/182468471-6ef4aac6-a4e2-4ae8-93ef-d638cd01627d.png)](https://signpath.io/?utm_source=foundation&utm_medium=github&utm_campaign=heroicgameslauncher)
 
 ## Screenshots
 
