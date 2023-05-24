@@ -47,7 +47,6 @@ export default function ToggleSwitch(props: Props) {
         title={description}
       >
         {title}
-        <span className="toggleSwitch" />
       </label>
     </>
   )
