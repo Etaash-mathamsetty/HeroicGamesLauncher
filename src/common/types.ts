@@ -342,7 +342,7 @@ interface GamepadInputEventMouse {
 
 export interface SteamRuntime {
   path: string
-  type: 'soldier' | 'scout'
+  type: 'sniper' | 'scout'
   args: string[]
 }
 
