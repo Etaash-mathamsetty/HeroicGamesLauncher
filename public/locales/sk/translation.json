@@ -305,7 +305,8 @@
         "wine-repfix": {
             "message": "Wine uses what is called a WINEPREFIX to encapsulate Windows applications. This prefix contains the Wine configuration files and a reproduction of the file hierarchy of C: (the main disk on a Windows OS). In this reproduction of the C: drive, your game save files and dependencies installed via winetricks are stored."
         },
-        "wine-path-invalid": "Vínna cesta je neplatná, vyberte si inú."
+        "wine-path-invalid": "Vínna cesta je neplatná, vyberte si inú.",
+        "wine-path-none-found": "Nebola nájdená žiadna verzia Wine, stiahnite si ju z Wine Managera"
     },
     "install": {
         "path": "Select Install Path"
@@ -440,7 +441,8 @@
     "platforms": {
         "linux": "Linux",
         "mac": "Mac",
-        "win": "Windows"
+        "win": "Windows",
+        "browser": "Prehliadač"
     },
     "please-wait": "Please wait...",
     "progress": "Progress",
@@ -668,7 +670,7 @@
         "manager": {
             "link": "Wine Manager",
             "not-found": "No Wine versions found. Please click the refresh icon to try again.",
-            "title": "Wine Manager (Beta)",
+            "title": "Wine Manager",
             "unzipping": "Unzipping"
         },
         "release": "Release Date",

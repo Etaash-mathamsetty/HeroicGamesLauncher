@@ -305,7 +305,8 @@
         "wine-repfix": {
             "message": "Wine uses what is called a WINEPREFIX to encapsulate Windows applications. This prefix contains the Wine configuration files and a reproduction of the file hierarchy of C: (the main disk on a Windows OS). In this reproduction of the C: drive, your game save files and dependencies installed via winetricks are stored."
         },
-        "wine-path-invalid": "Wine Path 無效，請選擇另一個。"
+        "wine-path-invalid": "Wine Path 無效，請選擇另一個。",
+        "wine-path-none-found": "沒有找到 Wine 版本，從 Wine Manager 下載一個"
     },
     "install": {
         "path": "選擇安裝路徑"
@@ -440,7 +441,8 @@
     "platforms": {
         "linux": "Linux",
         "mac": "Mac",
-        "win": "Windows"
+        "win": "Windows",
+        "browser": "瀏覽器"
     },
     "please-wait": "Please wait...",
     "progress": "Progress",
@@ -680,5 +682,12 @@
     },
     "wiki_info": {
         "not_found": "我們找不到額外的信息。"
+    },
+    "dlc": {
+        "size": "大小",
+        "actions": "動作",
+        "installDlcs": "安裝所有DLC",
+        "noDlcFound": "未找到 DLC",
+        "title": "Title"
     }
 }
