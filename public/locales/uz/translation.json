@@ -160,7 +160,8 @@
     "platforms": {
         "linux": "Linux",
         "mac": "Mac",
-        "win": "Windows"
+        "win": "Windows",
+        "browser": "Brauzer"
     },
     "two_col_table": {
         "save_hint": "Ushbu jadvaldagi o'zgarishlar avtomatik ravishda saqlanmaydi. + tugmasini bosing"
@@ -350,7 +351,8 @@
         },
         "wine-repfix": {
             "message": "Wine Windows ilovalarini qamrab olish uchun WINEPREFIX deb ataladigan narsadan foydalanadi. Ushbu prefiks Wine konfiguratsiya fayllarini va C: fayl ierarxiyasining takrorlanishini o'z ichiga oladi (Windows operatsion tizimidagi asosiy disk). C: diskining ushbu reproduktsiyasida o'yinni saqlash fayllari va winetricks orqali o'rnatilgan bog'liqliklar saqlanadi."
-        }
+        },
+        "wine-path-none-found": "Hech qanday sharob versiyasi topilmadi, Wine menejeridan birini yuklab oling"
     },
     "install": {
         "path": "O'rnatish yo'lini tanlang"
@@ -669,5 +671,12 @@
         "removepath": "Yo'lni olib tashlash"
     },
     "Open": "Ochiq",
-    "Update Available!": "Yangilanish mavjud!"
+    "Update Available!": "Yangilanish mavjud!",
+    "dlc": {
+        "actions": "Harakatlar",
+        "installDlcs": "Barcha DLC-larni o'rnating",
+        "noDlcFound": "Hech qanday DLC topilmadi",
+        "size": "Hajmi",
+        "title": "Sarlavha"
+    }
 }

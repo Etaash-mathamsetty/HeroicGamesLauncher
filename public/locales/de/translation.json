@@ -81,7 +81,7 @@
             "moving": "Fehler beim Verschieben des Spiels {{error}}",
             "ubisoft-connect": {
                 "title": "Ubisoft Connect",
-                "message": "Die Installation von Ubisoft Connect im Spielpräfix ist fehlgeschlagen. Besuchen Sie unsere Wiki-Seite unter https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/How-to-install-Ubisoft-Connect-on-Linux-and-Mac, um es manuell zu installieren."
+                "message": "Die Installation von Ubisoft Connect im Spielpräfix ist fehlgeschlagen. Schauen Sie auf unserer Wikiseite https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/How-to-install-Ubisoft-Connect-on-Linux-and-Mac nach, um es manuell zu installieren."
             },
             "legendary": {
                 "generic": "Ein Fehler ist aufgetreten! Versuchen Sie, sich bei Ihrem Epic-Konto abzumelden und anzumelden. {{newline}} {{error}}"
@@ -305,7 +305,8 @@
         "wine-repfix": {
             "message": "Wine verwendet einen so genannten WINEPREFIX, um Windows-Anwendungen abzukapseln. Dieser Präfix enthält die Wine-Konfigurationsdateien und eine Nachbildung der Dateihierarchie von C: (der Hauptfestplatte eines Windows-Betriebssystems). In dieser Reproduktion des Laufwerks C: werden deine Spielespeicherdateien und die über Winetricks installierten Abhängigkeiten gespeichert."
         },
-        "wine-path-invalid": "Der Weinpfad ist ungültig, bitte wählen Sie einen anderen aus."
+        "wine-path-invalid": "Der Weinpfad ist ungültig, bitte wählen Sie einen anderen aus.",
+        "wine-path-none-found": "Es wurde keine Wine-Version gefunden. Laden Sie eine vom Wine Manager herunter"
     },
     "install": {
         "path": "Installationspfad auswählen"
@@ -440,7 +441,8 @@
     "platforms": {
         "linux": "Linux",
         "mac": "Mac",
-        "win": "Windows"
+        "win": "Windows",
+        "browser": "Browser"
     },
     "please-wait": "Bitte warten...",
     "progress": "Fortschritt",
@@ -680,5 +682,12 @@
     },
     "wiki_info": {
         "not_found": "Wir konnten keine zusätzlichen Informationen finden."
+    },
+    "dlc": {
+        "actions": "Aktionen",
+        "installDlcs": "Alle DLCs installieren",
+        "noDlcFound": "Keine DLCs gefunden",
+        "size": "Größe",
+        "title": "Titel"
     }
 }

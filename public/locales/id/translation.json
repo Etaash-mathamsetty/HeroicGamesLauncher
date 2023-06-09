@@ -80,11 +80,11 @@
             },
             "moving": "Terjadi Kesalahan saat Memindahkan Game {{error}}",
             "ubisoft-connect": {
-                "message": "Pemasangan Ubisoft Connect di awalan game gagal. Periksa halaman wiki kami di https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/How-to-install-Ubisoft-Connect-on-Linux-and-Mac untuk menginstalnya secara maunal.",
+                "message": "Pemasangan Ubisoft Connect di prefiks gim telah gagal. Periksa halaman wiki kami di https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/How-to-install-Ubisoft-Connect-on-Linux-and-Mac untuk memasangnya secara maunal.",
                 "title": "Ubisoft Connect"
             },
             "legendary": {
-                "generic": "Sebuah kesalahan telah terjadi! Cobalah Logout dan Login di akun Epic Anda. {{newline}} {{error}}"
+                "generic": "Sebuah kesalahan telah terjadi! Cobalah Keluar dan Masuk kembali di akun Epic Anda. {{newline}} {{error}}"
             }
         },
         "info": {
@@ -305,7 +305,8 @@
         "wine-repfix": {
             "message": "Wine membutuhkan WINEPREFIX untuk menjalankan aplikasi Windows. Prefiks ini mengandung berkas konfigurasi Wine dan reproduksi dari struktur berkas yang ada dalam partisi C: (penyimpanan utama dalam OS Windows). Berkas yang disimpan dari hasil reproduksi ini adalah, penyimpanan save gim dan perangkat lunak lainnya yang terpasang melalui winetricks."
         },
-        "wine-path-invalid": "Lokasi Wine tidak valid, silakan pilih lokasi yang lain."
+        "wine-path-invalid": "Lokasi Wine tidak valid, silakan pilih lokasi yang lain.",
+        "wine-path-none-found": "Tidak ada versi Wine yang ditemukan, unduh dari Wine Manager"
     },
     "install": {
         "path": "Pilih Lokasi Pemasangan"
@@ -367,7 +368,7 @@
             "imported": "Gim Diimpor",
             "startInstall": "Pemasangan Dimulai",
             "failed": "Pemasangan Gagal",
-            "paused": "Instalasi Dijeda"
+            "paused": "Pemasangan Dijeda"
         },
         "moved": "Selesai Memindahkan",
         "moving": "Memindahkan Gim",
@@ -380,7 +381,7 @@
             "canceled": "Pembaruan Dibatalkan",
             "finished": "Pembaruan Selesai",
             "started": "Pembaruan Dimulai",
-            "failed": "Pembaharuan gagal",
+            "failed": "Pembaruan gagal",
             "paused": "Pembaruan Dijeda"
         }
     },
@@ -440,7 +441,8 @@
     "platforms": {
         "linux": "Linux",
         "mac": "Mac",
-        "win": "Windows"
+        "win": "Windows",
+        "browser": "Peramban"
     },
     "please-wait": "Mohon tunggu...",
     "progress": "Progress",
@@ -680,5 +682,12 @@
     },
     "wiki_info": {
         "not_found": "Kami tidak dapat menemukan informasi tambahan."
+    },
+    "dlc": {
+        "size": "Ukuran",
+        "title": "Judul",
+        "actions": "Tindakan",
+        "installDlcs": "Pasang semua DLC",
+        "noDlcFound": "Tidak ada DLC yang ditemukan"
     }
 }

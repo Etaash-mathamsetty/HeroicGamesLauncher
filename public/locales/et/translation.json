@@ -305,7 +305,8 @@
         "wine-repfix": {
             "message": "Wine kasutab Windowsi rakenduste kapseldamiseks nn WINEPREFIXi. See eesliide sisaldab Wine'i konfiguratsioonifaile ja C: (Windows OSi põhiketta) failihierarhia reproduktsiooni. Sellesse C: ketta reproduktsiooni salvestatakse teie mängu salvestusfailid ja winetricks'i kaudu paigaldatud sõltuvused."
         },
-        "wine-path-invalid": "Veinitee on kehtetu, valige mõni muu."
+        "wine-path-invalid": "Veinitee on kehtetu, valige mõni muu.",
+        "wine-path-none-found": "Wine'i versiooni ei leitud, laadige see alla veinihaldurist"
     },
     "install": {
         "path": "Valige paigaldustee"
@@ -440,7 +441,8 @@
     "platforms": {
         "linux": "Linux",
         "mac": "Mac",
-        "win": "Windows"
+        "win": "Windows",
+        "browser": "Brauser"
     },
     "please-wait": "Please wait...",
     "progress": "Progress",
@@ -680,5 +682,12 @@
     },
     "wiki_info": {
         "not_found": "Me ei leidnud lisateavet."
+    },
+    "dlc": {
+        "actions": "Tegevused",
+        "installDlcs": "Paigalda kõik DLC'd",
+        "noDlcFound": "DLC-sid ei leitud",
+        "size": "Suurus",
+        "title": "Title"
     }
 }

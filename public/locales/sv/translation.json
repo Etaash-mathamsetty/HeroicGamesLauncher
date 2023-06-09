@@ -305,7 +305,8 @@
         "wine-repfix": {
             "message": "Wine använder WINEPREFIX för att kapsla in Windows-applikationer. Detta prefix innehåller Wines konfigurationsfiler och en skapad filhierarki för C: (huvuddisken på ett Windows-operativsystem). I den skapade C:-enheten lagras spelets sparfiler och beroenden som installerats via winetricks."
         },
-        "wine-path-invalid": "Vinvägen är ogiltig, välj en annan."
+        "wine-path-invalid": "Vinvägen är ogiltig, välj en annan.",
+        "wine-path-none-found": "Ingen Wine-version hittades, ladda ner en från Wine Manager"
     },
     "install": {
         "path": "Ange installationssökväg"
@@ -440,7 +441,8 @@
     "platforms": {
         "linux": "Linux",
         "mac": "Mac",
-        "win": "Windows"
+        "win": "Windows",
+        "browser": "Webbläsare"
     },
     "please-wait": "Var god dröj...",
     "progress": "Progress",
@@ -680,5 +682,12 @@
     },
     "wiki_info": {
         "not_found": "Hittade ej någon extra information."
+    },
+    "dlc": {
+        "actions": "Handlingar",
+        "installDlcs": "Installera alla DLC",
+        "noDlcFound": "Inga DLC:er hittades",
+        "size": "Storlek",
+        "title": "Titel"
     }
 }

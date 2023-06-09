@@ -305,7 +305,8 @@
         "wine-repfix": {
             "message": "Wine uses what is called a WINEPREFIX to encapsulate Windows applications. This prefix contains the Wine configuration files and a reproduction of the file hierarchy of C: (the main disk on a Windows OS). In this reproduction of the C: drive, your game save files and dependencies installed via winetricks are stored."
         },
-        "wine-path-invalid": "ஒயின் பாதை தவறானது, வேறொன்றைத் தேர்ந்தெடுக்கவும்."
+        "wine-path-invalid": "ஒயின் பாதை தவறானது, வேறொன்றைத் தேர்ந்தெடுக்கவும்.",
+        "wine-path-none-found": "ஒயின் பதிப்பு எதுவும் கிடைக்கவில்லை, ஒயின் மேலாளரிடமிருந்து ஒன்றைப் பதிவிறக்கவும்"
     },
     "install": {
         "path": "Select Install Path"
@@ -440,7 +441,8 @@
     "platforms": {
         "linux": "லினக்ஸ்",
         "mac": "மேக்",
-        "win": "விண்டோஸ்"
+        "win": "விண்டோஸ்",
+        "browser": "உலாவி"
     },
     "please-wait": "Please wait...",
     "progress": "Progress",
@@ -520,7 +522,7 @@
         "log": {
             "copy-to-clipboard": "Copy log content to clipboard",
             "current-log": "Current Log",
-            "instructions": "Join our Discord and look for the channel that matches your operating system. Share the content of the logs displayed here, and include a clear description of the problem with any relevant information and details.",
+            "instructions": "Join our Discord and look for the \"#-support\" section. Read the pinned \"Read Me First | Frequently Asked Questions\" thread and follow the instructions to share these logs and any relevant information about your problem.",
             "instructions_title": "How to report a problem?",
             "last-log": "Last Log",
             "no-file": "No log file found",
@@ -680,5 +682,12 @@
     },
     "wiki_info": {
         "not_found": "கூடுதல் தகவல்களை எங்களால் கண்டுபிடிக்க முடியவில்லை."
+    },
+    "dlc": {
+        "actions": "செயல்கள்",
+        "installDlcs": "Install all DLCs",
+        "noDlcFound": "டிஎல்சிகள் எதுவும் இல்லை",
+        "size": "Size",
+        "title": "Title"
     }
 }
