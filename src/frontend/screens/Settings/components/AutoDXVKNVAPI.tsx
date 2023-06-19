@@ -15,17 +15,24 @@ const AutoDXVKNVAPI = () => {
   )
   const { appName } = useContext(SettingsContext)
   const [wineVersion] = useSetting('wineVersion', defaultWineVersion)
+  const [installingDxvkNvapi, setInstallingDxvkNvapi] = React.useState(false)
 
-  const handleAutoInstallDxvkNvapi = () => {
+  const handleAutoInstallDxvkNvapi = async () => {
     const isProton = wineVersion.type === 'proton'
+    let res = true
     if (!isProton) {
       const action = autoInstallDXVKNVAPI ? 'restore' : 'backup'
-      window.api.toggleDXVKNVAPI({
+      setInstallingDxvkNvapi(true)
+      res = await window.api.toggleDXVKNVAPI({
         appName,
         action
       })
+
+      setInstallingDxvkNvapi(false)
     }
-    return setAutoInstallDXVKNVAPI(!autoInstallDXVKNVAPI)
+    if (res) {
+      setAutoInstallDXVKNVAPI(!autoInstallDXVKNVAPI)
+    }
   }
 
   return (
@@ -34,6 +41,7 @@ const AutoDXVKNVAPI = () => {
         htmlId="autodxvknvapi"
         value={autoInstallDXVKNVAPI}
         handleChange={handleAutoInstallDxvkNvapi}
+        disabled={installingDxvkNvapi}
         title={t(
           'setting.autodxvknvapi',
           'Auto Install/Update DXVK-NVAPI on Prefix'

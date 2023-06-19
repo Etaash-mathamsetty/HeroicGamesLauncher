@@ -841,13 +841,13 @@ ipcMain.handle('toggleDXVK', async (event, { appName, action }) =>
     )
 )
 
-ipcMain.on('toggleDXVKNVAPI', (event, { appName, action }) => {
+ipcMain.handle('toggleDXVKNVAPI', async (event, { appName, action }) =>
   GameConfig.get(appName)
     .getSettings()
-    .then((gameSettings) => {
+    .then(async (gameSettings) =>
       DXVK.installRemove(gameSettings, 'dxvk-nvapi', action)
-    })
-})
+    )
+)
 
 ipcMain.handle('toggleVKD3D', async (event, { appName, action }) =>
   GameConfig.get(appName)
