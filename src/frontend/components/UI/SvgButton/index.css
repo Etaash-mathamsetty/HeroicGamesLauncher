@@ -6,3 +6,7 @@
   margin: 0;
   color: var(--text-default);
 }
+
+.svg-button:focus-within {
+  outline: var(--accent) auto 1px;
+}
