@@ -11,8 +11,8 @@ export const toggleDXVK = async (args: ToolArgs) =>
   ipcRenderer.invoke('toggleDXVK', args)
 export const toggleDXVKNVAPI = (args: ToolArgs) =>
   ipcRenderer.send('toggleDXVKNVAPI', args)
-export const toggleVKD3D = (args: ToolArgs) =>
-  ipcRenderer.send('toggleVKD3D', args)
+export const toggleVKD3D = async (args: ToolArgs) =>
+  ipcRenderer.invoke('toggleVKD3D', args)
 export const isFlatpak = async (): Promise<boolean> =>
   ipcRenderer.invoke('isFlatpak')
 export const isRuntimeInstalled = async (
