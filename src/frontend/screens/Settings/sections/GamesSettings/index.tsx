@@ -136,6 +136,8 @@ export default function GamesSettings({ useDetails = true }: Props) {
               <>
                 <EnableFsync />
 
+                <PreferSystemLibs />
+
                 <GameMode />
               </>
             )}
