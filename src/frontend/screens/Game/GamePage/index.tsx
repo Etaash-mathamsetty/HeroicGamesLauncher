@@ -78,6 +78,7 @@ import PopoverComponent from 'frontend/components/UI/PopoverComponent'
 import HowLongToBeat from 'frontend/components/UI/WikiGameInfo/components/HowLongToBeat'
 import GameScore from 'frontend/components/UI/WikiGameInfo/components/GameScore'
 import DLCList from 'frontend/components/UI/DLCList'
+import { NileInstallInfo } from 'common/types/nile'
 
 export default React.memo(function GamePage(): JSX.Element | null {
   const { appName, runner } = useParams() as { appName: string; runner: Runner }
@@ -112,7 +113,7 @@ export default React.memo(function GamePage(): JSX.Element | null {
   const [extraInfo, setExtraInfo] = useState<ExtraInfo | null>(null)
   const [autoSyncSaves, setAutoSyncSaves] = useState(false)
   const [gameInstallInfo, setGameInstallInfo] = useState<
-    LegendaryInstallInfo | GogInstallInfo | null
+    LegendaryInstallInfo | GogInstallInfo | NileInstallInfo | null
   >(null)
   const [launchOptions, setLaunchOptions] = useState<LaunchOption[]>([])
   const [launchArguments, setLaunchArguments] = useState('')
