@@ -48,6 +48,7 @@ import { GameConfig } from './game_config'
 import { GlobalConfig } from './config'
 import { LegendaryUser } from 'backend/storeManagers/legendary/user'
 import { GOGUser } from './storeManagers/gog/user'
+import { NileUser } from './storeManagers/nile/user'
 import setup from './storeManagers/gog/setup'
 import {
   clearCache,
@@ -70,7 +71,8 @@ import {
   getCurrentChangelog,
   checkWineBeforeLaunch,
   removeFolder,
-  downloadDefaultWine
+  downloadDefaultWine,
+  getNileVersion
 } from './utils'
 import {
   configStore,
@@ -648,6 +650,7 @@ ipcMain.handle('getMaxCpus', () => cpus().length)
 ipcMain.handle('getHeroicVersion', app.getVersion)
 ipcMain.handle('getLegendaryVersion', getLegendaryVersion)
 ipcMain.handle('getGogdlVersion', getGogdlVersion)
+ipcMain.handle('getNileVersion', getNileVersion)
 ipcMain.handle('isFullscreen', () => isSteamDeckGameMode || isCLIFullscreen)
 ipcMain.handle('isFlatpak', () => isFlatpak)
 ipcMain.handle('getGameOverride', async () => getGameOverride())
@@ -757,6 +760,8 @@ ipcMain.handle('getUserInfo', async () => {
   return LegendaryUser.getUserInfo()
 })
 
+ipcMain.handle('getAmazonUserInfo', async () => NileUser.getUserData())
+
 // Checks if the user have logged in with Legendary already
 ipcMain.handle('isLoggedIn', LegendaryUser.isLoggedIn)
 
@@ -767,6 +772,10 @@ ipcMain.on('logoutGOG', GOGUser.logout)
 ipcMain.handle('getLocalPeloadPath', async () => {
   return fixAsarPath(join('file://', publicDir, 'webviewPreload.js'))
 })
+
+ipcMain.handle('getAmazonLoginData', NileUser.getLoginData)
+ipcMain.handle('authAmazon', async (event, data) => NileUser.login(data))
+ipcMain.on('logoutAmazon', NileUser.logout)
 
 ipcMain.handle('getAlternativeWine', async () =>
   GlobalConfig.get().getAlternativeWine()

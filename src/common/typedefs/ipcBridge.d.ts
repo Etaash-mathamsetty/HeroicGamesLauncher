@@ -34,6 +34,12 @@ import {
 } from 'common/types'
 import { LegendaryInstallInfo, SelectiveDownload } from 'common/types/legendary'
 import { GOGCloudSavesLocation, GogInstallInfo } from 'common/types/gog'
+import {
+  NileInstallInfo,
+  NileLoginData,
+  NileRegisterData,
+  NileUserData
+} from 'common/types/nile'
 
 /**
  * Some notes here:
@@ -74,6 +80,7 @@ interface SyncIPCFunctions {
   resetHeroic: () => void
   createNewWindow: (url: string) => void
   logoutGOG: () => void
+  logoutAmazon: () => voidile
   logError: (message: unknown) => void
   logInfo: (message: unknown) => void
   showItemInFolder: (item: string) => void
@@ -114,6 +121,7 @@ interface AsyncIPCFunctions {
   getHeroicVersion: () => string
   getLegendaryVersion: () => Promise<string>
   getGogdlVersion: () => Promise<string>
+  getNileVersion: () => Promise<string>
   isFullscreen: () => boolean
   isFlatpak: () => boolean
   getPlatform: () => NodeJS.Platform
@@ -131,8 +139,9 @@ interface AsyncIPCFunctions {
     appName: string,
     runner: Runner,
     installPlatform: InstallPlatform
-  ) => Promise<LegendaryInstallInfo | GogInstallInfo | null>
+  ) => Promise<LegendaryInstallInfo | GogInstallInfo | NileInstallInfo | null>
   getUserInfo: () => Promise<UserInfo | undefined>
+  getAmazonUserInfo: () => Promise<NileUserData | undefined>
   isLoggedIn: () => boolean
   login: (sid: string) => Promise<{
     status: 'done' | 'failed'
@@ -141,6 +150,10 @@ interface AsyncIPCFunctions {
   authGOG: (code: string) => Promise<{
     status: 'done' | 'error'
     data?: UserData
+  }>
+  authAmazon: (data: NileRegisterData) => Promise<{
+    status: 'done' | 'failed'
+    user: NileUserData | undefined
   }>
   logoutLegendary: () => Promise<void>
   getAlternativeWine: () => Promise<WineInstallation[]>
@@ -248,6 +261,7 @@ interface AsyncIPCFunctions {
     runner: Runner,
     appName: string
   ) => Promise<number | undefined>
+  getAmazonLoginData: () => Promise<NileLoginData>
 }
 
 // This is quite ugly & throws a lot of errors in a regular .ts file
