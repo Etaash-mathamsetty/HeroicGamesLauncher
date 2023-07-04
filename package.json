@@ -106,6 +106,7 @@
       "asarUnpack": [
         "build/bin/linux/legendary",
         "build/bin/linux/gogdl",
+        "build/bin/linux/nile",
         "build/bin/linux/vulkan-helper"
       ],
       "files": [
