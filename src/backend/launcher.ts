@@ -324,6 +324,9 @@ function setupWineEnvVars(gameSettings: GameSettings, gameId = '0') {
   if (gameSettings.enableDXVKFpsLimit) {
     ret.DXVK_FRAME_RATE = gameSettings.DXVKFpsCap
   }
+  if (gameSettings.showMangohud) {
+    ret.MANGOHUD_CONFIGFILE = join(userHome, '.config/MangoHud/MangoHud.conf')
+  }
   if (gameSettings.enableEsync && wineVersion.type !== 'proton') {
     ret.WINEESYNC = '1'
   }
