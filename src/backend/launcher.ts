@@ -325,7 +325,14 @@ function setupWineEnvVars(gameSettings: GameSettings, gameId = '0') {
     ret.DXVK_FRAME_RATE = gameSettings.DXVKFpsCap
   }
   if (gameSettings.showMangohud) {
-    ret.MANGOHUD_CONFIGFILE = join(userHome, '.config/MangoHud/MangoHud.conf')
+    if (!process.env.XDG_CONFIG_HOME) {
+      ret.MANGOHUD_CONFIGFILE = join(userHome, '.config/MangoHud/MangoHud.conf')
+    } else {
+      ret.MANGOHUD_CONFIGFILE = join(
+        process.env.XDG_CONFIG_HOME,
+        'MangoHud/MangoHud.conf'
+      )
+    }
   }
   if (gameSettings.enableEsync && wineVersion.type !== 'proton') {
     ret.WINEESYNC = '1'
