@@ -934,8 +934,8 @@ async function shutdownWine(gameSettings: GameSettings) {
       wait: true,
       protonVerb: 'waitforexitandrun'
     })
-  } else {
-    spawnSync('wineserver', ['-k'], {
+  } else if (gameSettings.wineVersion.wineserver) {
+    spawnSync(gameSettings.wineVersion.wineserver, ['-k'], {
       env: { WINEPREFIX: gameSettings.winePrefix }
     })
   }
