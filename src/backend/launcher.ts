@@ -324,20 +324,10 @@ function setupWineEnvVars(gameSettings: GameSettings, gameId = '0') {
   if (gameSettings.enableDXVKFpsLimit) {
     ret.DXVK_FRAME_RATE = gameSettings.DXVKFpsCap
   }
-  if (gameSettings.showMangohud) {
-    if (!process.env.XDG_CONFIG_HOME) {
-      ret.MANGOHUD_CONFIGFILE = join(userHome, '.config/MangoHud/MangoHud.conf')
-    } else {
-      ret.MANGOHUD_CONFIGFILE = join(
-        process.env.XDG_CONFIG_HOME,
-        'MangoHud/MangoHud.conf'
-      )
-    }
-  }
   if (
     gameSettings.showMangohud &&
     !gameSettings.enviromentOptions.find(
-      ({ key }) => key === 'mangohud_configfile'
+      ({ key }) => key === 'MANGOHUD_CONFIGFILE'
     )
   ) {
     if (!process.env.XDG_CONFIG_HOME) {
