@@ -11,11 +11,10 @@ import { InstallResult, RemoveArgs } from 'common/types/game_manager'
 import {
   runRunnerCommand as runNileCommand,
   getGameInfo as nileLibraryGetGameInfo,
-  refreshInstalled as nileRefreshInstalled,
   changeGameInstallPath,
   installState,
   removeFromInstalledConfig,
-  fetchFuelJSON
+  getInstallMetadata
 } from './library'
 import {
   LogPrefix,
@@ -24,7 +23,7 @@ import {
   logInfo,
   logsDisabled
 } from 'backend/logger/logger'
-import { gamesConfigPath, isLinux, isWindows } from 'backend/constants'
+import { gamesConfigPath, isWindows } from 'backend/constants'
 import { GameConfig } from 'backend/game_config'
 import {
   createAbortController,
@@ -59,6 +58,7 @@ import {
 } from '../../shortcuts/shortcuts/shortcuts'
 import { removeNonSteamGame } from 'backend/shortcuts/nonesteamgame/nonesteamgame'
 import { sendFrontendMessage } from 'backend/main_window'
+import setup from './setup'
 
 export async function getSettings(appName: string): Promise<GameSettings> {
   const gameConfig = GameConfig.get(appName)
@@ -139,8 +139,8 @@ export async function importGame(
   }
 
   try {
-    nileRefreshInstalled()
     addShortcuts(appName)
+    installState(appName, true)
   } catch (error) {
     logError(['Failed to import', `${appName}:`, error], LogPrefix.Nile)
   }
@@ -278,6 +278,9 @@ export async function install(
     return { status: 'error', error: res.error }
   }
   addShortcuts(appName)
+  installState(appName, true)
+  const metadata = getInstallMetadata(appName)
+  await setup(appName, metadata?.path)
 
   return { status: 'done' }
 }
@@ -514,7 +517,7 @@ export async function uninstall({ appName }: RemoveArgs): Promise<ExecResult> {
     const gameInfo = getGameInfo(appName)
     await removeShortcutsUtil(gameInfo)
     await removeNonSteamGame({ gameInfo })
-    installState()
+    installState(appName, false)
   }
   sendFrontendMessage('refreshLibrary', 'nile')
   return res
@@ -568,22 +571,10 @@ export async function forceUninstall(appName: string) {
   removeFromInstalledConfig(appName)
 }
 
-export async function stop(appName: string, stopWine?: boolean) {
-  const pattern = isLinux ? appName : 'nile'
+export async function stop(appName: string, stopWine = true) {
+  const pattern = process.platform === 'linux' ? appName : 'nile'
   killPattern(pattern)
-  // Try to find the .exe name to stop the game, if running
-  const fuel = fetchFuelJSON(appName)
-  if (fuel) {
-    // Find the executable name in order to pkill it
-    // Killing nile is not enough as it doesn't manage the games it launches
-    const { Command: exeName } = fuel.Main
-    // Remove `.exe` extension for Windows to be able to kill the process
-    const processName =
-      isWindows && exeName.endsWith('.exe') ? exeName.slice(0, -4) : exeName
-    killPattern(processName)
-  } else {
-    logError(['Could not fetch `fuel.json` for', appName], LogPrefix.Nile)
-  }
+
   if (stopWine && !isNative()) {
     const gameSettings = await getSettings(appName)
     await shutdownWine(gameSettings)

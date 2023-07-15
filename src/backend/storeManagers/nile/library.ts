@@ -31,6 +31,7 @@ import { callRunner } from 'backend/launcher'
 import { dirname, join } from 'path'
 import { app } from 'electron'
 import { copySync } from 'fs-extra'
+import { NileUser } from './user'
 
 const installedGames: Map<string, NileInstallMetadataInfo> = new Map()
 const library: Map<string, GameInfo> = new Map()
@@ -40,6 +41,7 @@ export async function initNileLibraryManager() {
   const globalNileConfig = join(app.getPath('appData'), 'nile')
   if (!existsSync(nileConfigPath) && existsSync(globalNileConfig)) {
     copySync(globalNileConfig, nileConfigPath)
+    await NileUser.getUserData()
   }
 
   refresh()
@@ -59,18 +61,9 @@ function loadGamesInAccount() {
     const { product } = game
     const { title, productDetail } = product
     const {
-      details: { shortDescription, developer, websites },
+      details: { shortDescription, developer },
       iconUrl
     } = productDetail
-
-    let storePage: string | undefined
-    if (websites.steam) {
-      storePage = websites.steam
-    } else if (websites.gog) {
-      storePage = websites.gog
-    } else if (websites.official) {
-      storePage = websites.official
-    }
 
     const info = installedGames.get(product.id)
 
@@ -86,7 +79,6 @@ function loadGamesInAccount() {
             platform: 'Windows' // Amazon Games only supports Windows
           }
         : {},
-      store_url: storePage,
       folder_name: title,
       is_installed: info !== undefined,
       runner: 'nile',
@@ -125,15 +117,19 @@ export function removeFromInstalledConfig(appName: string) {
 /**
  * Fetches and parses the game's `fuel.json` file
  */
-export function fetchFuelJSON(appName: string): FuelSchema | null {
+export function fetchFuelJSON(
+  appName: string,
+  installedPath?: string
+): FuelSchema | null {
   const game = getGameInfo(appName)
-  if (!game?.install.install_path) {
+  const basePath = installedPath ?? game?.install.install_path
+  if (!basePath) {
     logError(['Could not find install path for', appName], LogPrefix.Nile)
     return null
   }
 
-  const { install_path } = game.install
-  const fuelJSONPath = join(install_path, 'fuel.json')
+  const fuelJSONPath = join(basePath, 'fuel.json')
+  logDebug(['fuel.json path:', fuelJSONPath], LogPrefix.Nile)
 
   if (!existsSync(fuelJSONPath)) {
     return null
@@ -191,6 +187,27 @@ async function refreshNile(): Promise<ExecResult> {
     stderr: '',
     stdout: ''
   }
+}
+
+export function getInstallMetadata(
+  appName: string
+): NileInstallMetadataInfo | undefined {
+  if (!existsSync(nileInstalled)) {
+    return
+  }
+
+  try {
+    const installed: NileInstallMetadataInfo[] = JSON.parse(
+      readFileSync(nileInstalled, 'utf-8')
+    )
+    return installed.find((game) => game.id === appName)
+  } catch (error) {
+    logError(
+      ['Corrupted installed.json file, cannot load installed games', error],
+      LogPrefix.Nile
+    )
+  }
+  return
 }
 
 /**
@@ -406,9 +423,19 @@ function updateInstalledPathInJSON(appName: string, newAppPath: string) {
  * @param appName
  * @param state true if its installed, false otherwise.
  */
-export function installState() {
-  // It's easier to just reload installed from config
-  refreshInstalled()
+export function installState(appName: string, state: boolean) {
+  if (!state) {
+    installedGames.delete(appName)
+    installStore.delete(appName)
+    return
+  }
+
+  const metadata = getInstallMetadata(appName)
+  if (!metadata) {
+    logError(['Could not find install metadata for', appName], LogPrefix.Nile)
+    return
+  }
+  installedGames.set(appName, metadata)
 }
 
 export async function runRunnerCommand(

@@ -50,6 +50,7 @@ import { LegendaryUser } from 'backend/storeManagers/legendary/user'
 import { GOGUser } from './storeManagers/gog/user'
 import { NileUser } from './storeManagers/nile/user'
 import setup from './storeManagers/gog/setup'
+import nileSetup from './storeManagers/nile/setup'
 import {
   clearCache,
   execAsync,
@@ -775,7 +776,7 @@ ipcMain.handle('getLocalPeloadPath', async () => {
 
 ipcMain.handle('getAmazonLoginData', NileUser.getLoginData)
 ipcMain.handle('authAmazon', async (event, data) => NileUser.login(data))
-ipcMain.on('logoutAmazon', NileUser.logout)
+ipcMain.handle('logoutAmazon', NileUser.logout)
 
 ipcMain.handle('getAlternativeWine', async () =>
   GlobalConfig.get().getAlternativeWine()
@@ -1606,6 +1607,9 @@ ipcMain.handle(
 
     if (runner === 'gog' && updated) {
       await setup(appName)
+    }
+    if (runner === 'nile' && updated) {
+      await nileSetup(appName)
     }
     if (runner === 'legendary' && updated) {
       await setupUbisoftConnect(appName)
