@@ -10,15 +10,10 @@
   flex-direction: column;
   border-radius: var(--space-3xs);
   animation: fade-in 0.1s ease-in;
-  aspect-ratio: 173/275;
 }
 
 .gameCard.justPlayed {
   aspect-ratio: 275/205;
-}
-
-.gameCard.gamepad {
-  aspect-ratio: 3/4;
 }
 
 .gameCard:focus-within {
@@ -67,9 +62,9 @@
 }
 
 .gameCard.justPlayed .justPlayedImg {
-  aspect-ratio: 16 / 10;
   object-fit: cover;
   width: 100%;
+  height: 100%;
 }
 
 .gameCard .gameLogo {
