@@ -236,9 +236,13 @@ async function prepareWineLaunch(
     }
   }
 
-  const { folder_name: installFolderName } =
+  const { folder_name: installFolderName, install } =
     gameManagerMap[runner].getGameInfo(appName)
-  const envVars = setupWineEnvVars(gameSettings, installFolderName)
+  const envVars = setupWineEnvVars(
+    gameSettings,
+    installFolderName,
+    install.install_path
+  )
 
   return { success: true, envVars: envVars }
 }
@@ -282,7 +286,11 @@ function setupEnvVars(gameSettings: GameSettings) {
  * @param gameId If Proton and the Steam Runtime are used, the SteamGameId variable will be set to `heroic-gameId`
  * @returns A Record that can be passed to execAsync/spawn
  */
-function setupWineEnvVars(gameSettings: GameSettings, gameId = '0') {
+function setupWineEnvVars(
+  gameSettings: GameSettings,
+  gameId = '0',
+  installPath?: string
+) {
   const { wineVersion, winePrefix, wineCrossoverBottle } = gameSettings
 
   const ret: Record<string, string> = {}
@@ -311,6 +319,9 @@ function setupWineEnvVars(gameSettings: GameSettings, gameId = '0') {
     case 'proton':
       ret.STEAM_COMPAT_CLIENT_INSTALL_PATH = steamInstallPath
       ret.STEAM_COMPAT_DATA_PATH = winePrefix
+      if (installPath) {
+        ret.STEAM_COMPAT_INSTALL_PATH = installPath
+      }
       break
     case 'crossover':
       ret.CX_BOTTLE = wineCrossoverBottle
@@ -558,6 +569,7 @@ function launchCleanup(rpcClient?: RpcClient) {
 async function runWineCommand({
   gameSettings,
   commandParts,
+  gameInstallPath,
   wait,
   protonVerb = 'run',
   installFolderName,
@@ -616,7 +628,7 @@ async function runWineCommand({
   const env_vars = {
     ...process.env,
     ...setupEnvVars(settings),
-    ...setupWineEnvVars(settings, installFolderName)
+    ...setupWineEnvVars(settings, installFolderName, gameInstallPath)
   }
 
   const isProton = wineVersion.type === 'proton'
@@ -734,7 +746,6 @@ async function callRunner(
   const safeCommand = getRunnerCallWithoutCredentials(
     [...commandParts],
     options?.env,
-    options?.wrappers,
     fullRunnerPath
   )
 
@@ -760,16 +771,7 @@ async function callRunner(
     }
   }
 
-  // If we have wrappers (things we want to run before the command), set bin to the first wrapper
-  // and add every other wrapper and the actual bin to the start of filteredArgs
-  const wrappers = options?.wrappers || []
-  let bin = ''
-  if (wrappers.length) {
-    bin = wrappers.shift()!
-    commandParts.unshift(...wrappers, runner.bin)
-  } else {
-    bin = runner.bin
-  }
+  const bin = runner.bin
 
   return new Promise<ExecResult>((res, rej) => {
     const child = spawn(bin, commandParts, {
@@ -888,7 +890,6 @@ async function callRunner(
 function getRunnerCallWithoutCredentials(
   commandParts: string[],
   env: Record<string, string> | NodeJS.ProcessEnv = {},
-  wrappers: string[] = [],
   runnerPath: string
 ): string {
   const modifiedCommandParts = [...commandParts]
@@ -916,7 +917,6 @@ function getRunnerCallWithoutCredentials(
 
   return [
     ...formattedEnvVars,
-    ...wrappers.map(quoteIfNecessary),
     quoteIfNecessary(runnerPath),
     ...modifiedCommandParts.map(quoteIfNecessary)
   ].join(' ')
