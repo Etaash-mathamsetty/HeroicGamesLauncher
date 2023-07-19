@@ -30,14 +30,6 @@ const AutoDXVK = () => {
       action
     })
 
-    if (autoInstallVkd3d && action === 'restore') {
-      await window.api.toggleVKD3D({
-        appName,
-        action
-      })
-      setAutoInstallVkd3d(false)
-    }
-
     setInstallingDxvk(false)
     if (res) {
       setAutoInstallDxvk(!autoInstallDxvk)
