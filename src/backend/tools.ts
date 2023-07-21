@@ -1,4 +1,4 @@
-import { GameSettings, WineInstallation } from 'common/types'
+import { GameSettings, Runner } from 'common/types'
 import axios from 'axios'
 import {
   existsSync,
@@ -24,7 +24,7 @@ import i18next from 'i18next'
 import { dirname, join } from 'path'
 import { isOnline } from './online_monitor'
 import { showDialogBoxModalAuto } from './dialog/dialog'
-import { runWineCommand, validWine } from './launcher'
+import { runWineCommand, setupWineEnvVars, validWine } from './launcher'
 import { chmod } from 'fs/promises'
 import { getNvngxPath } from './utils/graphics/nvngx-finder'
 import {
@@ -32,6 +32,7 @@ import {
   get_vulkan_instance_version
 } from './utils/graphics/vulkan'
 import { lt as semverLt } from 'semver'
+import { gameManagerMap } from './storeManagers'
 
 export const DXVK = {
   getLatest: async () => {
@@ -415,11 +416,16 @@ export const Winetricks = {
     }
   },
   runWithArgs: async (
-    wineVersion: WineInstallation,
-    baseWinePrefix: string,
+    runner: Runner,
+    appName: string,
     args: string[],
     event?: Electron.IpcMainInvokeEvent
   ) => {
+    const gameSettings = await gameManagerMap[runner].getSettings(appName)
+
+    const { wineVersion } = gameSettings
+    const baseWinePrefix = gameSettings.winePrefix
+
     if (!(await validWine(wineVersion))) {
       return
     }
@@ -440,7 +446,8 @@ export const Winetricks = {
       const linuxEnvs = {
         ...process.env,
         WINEPREFIX: winePrefix,
-        PATH: `${winepath}:${process.env.PATH}`
+        PATH: `${winepath}:${process.env.PATH}`,
+        ...setupWineEnvVars(gameSettings, appName)
       }
 
       const wineServer = join(winepath, 'wineserver')
@@ -451,7 +458,8 @@ export const Winetricks = {
         WINESERVER: wineServer,
         WINE: wineBin,
         WINE64: wineBin,
-        PATH: `/opt/homebrew/bin:${process.env.PATH}`
+        PATH: `/opt/homebrew/bin:${process.env.PATH}`,
+        ...setupWineEnvVars(gameSettings, appName)
       }
 
       const envs = isMac ? macEnvs : linuxEnvs
@@ -542,16 +550,11 @@ export const Winetricks = {
     })
   },
   run: async (
-    wineVersion: WineInstallation,
-    baseWinePrefix: string,
+    runner: Runner,
+    appName: string,
     event: Electron.IpcMainInvokeEvent
   ) => {
-    await Winetricks.runWithArgs(
-      wineVersion,
-      baseWinePrefix,
-      ['--force', '-q'],
-      event
-    )
+    await Winetricks.runWithArgs(runner, appName, ['--force', '-q'], event)
   }
 }
 
