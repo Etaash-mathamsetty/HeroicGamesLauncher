@@ -79,7 +79,6 @@ async function updateWineVersionInfos(
   }
 
   logInfo('wine versions updated', LogPrefix.WineDownloader)
-  sendFrontendMessage('wineVersionsUpdated')
   return releases
 }
 

@@ -31,6 +31,7 @@ ipcMain.handle('installWineVersion', async (e, release) => {
 ipcMain.handle('refreshWineVersionInfo', async (e, fetch?) => {
   try {
     await updateWineVersionInfos(fetch)
+    sendFrontendMessage('wineVersionsUpdated')
     return
   } catch (error) {
     logError(error, LogPrefix.WineDownloader)
