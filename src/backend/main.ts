@@ -192,11 +192,13 @@ async function initializeWindow(): Promise<BrowserWindow> {
   }, 2500)
 
   if (!isWindows) {
-    try {
-      await updateWineVersionInfos(true)
-    } catch (error) {
-      logError(error, LogPrefix.WineDownloader)
-    }
+    setTimeout(async () => {
+      try {
+        await updateWineVersionInfos(true)
+      } catch (error) {
+        logError(error, LogPrefix.Backend)
+      }
+    }, 5000)
   }
 
   GlobalConfig.get()
