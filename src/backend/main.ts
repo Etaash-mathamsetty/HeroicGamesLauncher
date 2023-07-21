@@ -7,7 +7,8 @@ import {
   StatusPromise,
   GamepadInputEvent,
   WineCommandArgs,
-  ExecResult
+  ExecResult,
+  Runner
 } from 'common/types'
 import * as path from 'path'
 import {
@@ -49,8 +50,6 @@ import { GlobalConfig } from './config'
 import { LegendaryUser } from 'backend/storeManagers/legendary/user'
 import { GOGUser } from './storeManagers/gog/user'
 import { NileUser } from './storeManagers/nile/user'
-import setup from './storeManagers/gog/setup'
-import nileSetup from './storeManagers/nile/setup'
 import {
   clearCache,
   execAsync,
@@ -116,7 +115,7 @@ import {
 } from './logger/logger'
 import { gameInfoStore } from 'backend/storeManagers/legendary/electronStores'
 import { getFonts } from 'font-list'
-import { runWineCommand, verifyWinePrefix } from './launcher'
+import { prepareWineLaunch, runWineCommand } from './launcher'
 import shlex from 'shlex'
 import { initQueue } from './downloadmanager/downloadqueue'
 import {
@@ -150,8 +149,6 @@ import {
   initStoreManagers,
   libraryManagerMap
 } from './storeManagers'
-import { setupUbisoftConnect } from 'backend/storeManagers/legendary/setup'
-import { refreshWineVersionInfo } from './api/wine'
 
 import { logFileLocation as getLogFileLocation } from './storeManagers/storeManagerCommon/games'
 import { addNewApp } from './storeManagers/sideload/library'
@@ -574,7 +571,7 @@ ipcMain.on('removeFolder', async (e, [path, folderName]) => {
 })
 
 async function runWineCommandOnGame(
-  runner: string,
+  runner: Runner,
   appName: string,
   { commandParts, wait = false, protonVerb, startFolder }: WineCommandArgs
 ): Promise<ExecResult> {
@@ -584,6 +581,8 @@ async function runWineCommandOnGame(
   }
   const { folder_name, install } = gameManagerMap[runner].getGameInfo(appName)
   const gameSettings = await gameManagerMap[runner].getSettings(appName)
+
+  await prepareWineLaunch(runner, appName)
 
   return runWineCommand({
     gameSettings,
@@ -600,7 +599,6 @@ async function runWineCommandOnGame(
 ipcMain.handle('callTool', async (event, { tool, exe, appName, runner }) => {
   const gameSettings = await gameManagerMap[runner].getSettings(appName)
   const { wineVersion, winePrefix } = gameSettings
-  await verifyWinePrefix(gameSettings)
 
   switch (tool) {
     case 'winetricks':
@@ -1599,22 +1597,11 @@ ipcMain.handle('getFonts', async (event, reload) => {
 ipcMain.handle(
   'runWineCommandForGame',
   async (event, { appName, commandParts, runner }) => {
-    const gameSettings = await gameManagerMap[runner].getSettings(appName)
-
     if (isWindows) {
       return execAsync(commandParts.join(' '))
     }
-    const { updated } = await verifyWinePrefix(gameSettings)
 
-    if (runner === 'gog' && updated) {
-      await setup(appName)
-    }
-    if (runner === 'nile' && updated) {
-      await nileSetup(appName)
-    }
-    if (runner === 'legendary' && updated) {
-      await setupUbisoftConnect(appName)
-    }
+    await prepareWineLaunch(runner, appName)
 
     // FIXME: Why are we using `runinprefix` here?
     return runWineCommandOnGame(runner, appName, {
