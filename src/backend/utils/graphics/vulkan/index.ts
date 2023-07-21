@@ -1,11 +1,11 @@
 import { vulkanHelperBin } from 'backend/constants'
-import { SpawnSyncReturns, spawnSync } from 'child_process'
+import { spawnSync } from 'child_process'
 import { gte as semverGte } from 'semver'
 
 type VulkanVersion = [maj: number, min: number, patch: number]
 
-let instance_version: SpawnSyncReturns<string> | null = null
-let physical_versions: SpawnSyncReturns<string> | null = null
+let instance_version: ReturnType<typeof spawnSync> | null = null
+let physical_versions: ReturnType<typeof spawnSync> | null = null
 
 /**
  * @returns The version of the installed Vulkan API interface, or `false` if
@@ -20,7 +20,7 @@ function get_vulkan_instance_version(): VulkanVersion | false {
     })
 
   try {
-    return JSON.parse(instance_version.stdout) as VulkanVersion
+    return JSON.parse(instance_version.stdout.toString()) as VulkanVersion
   } catch {
     return false
   }
@@ -38,7 +38,7 @@ function get_supported_vulkan_versions(): [
       encoding: 'utf-8'
     })
   try {
-    const output = JSON.parse(physical_versions.stdout) as Array<{
+    const output = JSON.parse(physical_versions.stdout.toString()) as Array<{
       name: string
       major: number
       minor: number
