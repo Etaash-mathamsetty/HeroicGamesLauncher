@@ -149,7 +149,7 @@ import {
   initStoreManagers,
   libraryManagerMap
 } from './storeManagers'
-import { refreshWineVersionInfo } from './api/wine'
+import { updateWineVersionInfos } from './wine/manager/utils'
 
 import { logFileLocation as getLogFileLocation } from './storeManagers/storeManagerCommon/games'
 import { addNewApp } from './storeManagers/sideload/library'
@@ -192,7 +192,11 @@ async function initializeWindow(): Promise<BrowserWindow> {
   }, 2500)
 
   if (!isWindows) {
-    await refreshWineVersionInfo(true)
+    try {
+      await updateWineVersionInfos(true)
+    } catch (error) {
+      logError(error, LogPrefix.WineDownloader)
+    }
   }
 
   GlobalConfig.get()
