@@ -234,6 +234,9 @@ async function prepareWineLaunch(
     if (gameSettings.autoInstallVkd3d) {
       await DXVK.installRemove(gameSettings, 'vkd3d', 'backup')
     }
+    if (gameSettings.autoInstallDxvkNvapi) {
+      await DXVK.installRemove(gameSettings, 'dxvk-nvapi', 'backup')
+    }
   }
 
   const { folder_name: installFolderName, install } =
@@ -611,13 +614,6 @@ async function runWineCommand({
       )
       mkdirSync(winePrefix, { recursive: true })
       await verifyWinePrefix(settings)
-
-      if (gameSettings?.autoInstallDxvk)
-        await DXVK.installRemove(gameSettings, 'dxvk', 'backup')
-      if (gameSettings?.autoInstallDxvkNvapi)
-        await DXVK.installRemove(gameSettings, 'dxvk-nvapi', 'backup')
-      if (gameSettings?.autoInstallVkd3d)
-        await DXVK.installRemove(gameSettings, 'vkd3d', 'backup')
     }
   }
 
