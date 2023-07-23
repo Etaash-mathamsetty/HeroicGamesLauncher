@@ -145,6 +145,7 @@ export interface GameSettings {
   ignoreGameUpdates: boolean
   language: string
   launcherArgs: string
+  maxSharpness?: number
   nvidiaPrime: boolean
   offlineMode: boolean
   otherOptions?: string //deprecated
