@@ -602,7 +602,8 @@ export async function getMetaResponse(
     : undefined
   const metaUrls =
     buildData.data?.items?.find((build: BuildItem) => !build.branch)?.urls ||
-    buildData.data?.items[0]?.urls
+    buildData.data?.items[0]?.urls ||
+    []
 
   for (const metaUrl of metaUrls) {
     try {
@@ -633,7 +634,7 @@ export async function checkForGameUpdate(
 ) {
   const metaResponse = await getMetaResponse(appName, platform, etag)
 
-  return metaResponse.status === 200
+  return metaResponse.status === 200 && metaResponse.etag !== etag
 }
 
 /**
