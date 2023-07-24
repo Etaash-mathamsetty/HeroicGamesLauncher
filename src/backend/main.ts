@@ -1607,8 +1607,6 @@ ipcMain.handle(
       return execAsync(commandParts.join(' '))
     }
 
-    await prepareWineLaunch(runner, appName)
-
     // FIXME: Why are we using `runinprefix` here?
     return runWineCommandOnGame(runner, appName, {
       commandParts,
