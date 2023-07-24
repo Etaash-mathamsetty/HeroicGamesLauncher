@@ -124,16 +124,20 @@ async function prepareLaunch(
     gameSettings.useSteamRuntime &&
     (isNative || gameSettings.wineVersion.type === 'proton')
   if (shouldUseRuntime) {
+    // Determine which runtime to use based on toolmanifest.vdf which is shipped with proton
     let nonNativeRuntime: SteamRuntime['type'] = 'soldier'
     if (!isNative) {
       try {
         const parentPath = normalize(join(gameSettings.wineVersion.bin, '..'))
         const requiredAppId = VDF.parse(
           readFileSync(join(parentPath, 'toolmanifest.vdf'), 'utf-8')
-        )['manifest']['require_tool_appid']
+        ).manifest?.require_tool_appid
         if (requiredAppId === 1628350) nonNativeRuntime = 'sniper'
       } catch (error) {
-        logError('Failed to parse toolmanifest.vdf', LogPrefix.Backend)
+        logError(
+          ['Failed to parse toolmanifest.vdf:', error],
+          LogPrefix.Backend
+        )
       }
     }
     // for native games lets use scout for now
@@ -148,7 +152,7 @@ async function prepareLaunch(
             isNative
               ? 'is'
               : `and the SteamLinuxRuntime - ${
-                  nonNativeRuntime === 'sniper' ? 'Sniper' : 'Solider'
+                  nonNativeRuntime === 'sniper' ? 'Sniper' : 'Soldier'
                 } are`
           } installed`
       }
