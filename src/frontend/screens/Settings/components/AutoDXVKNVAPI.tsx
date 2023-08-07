@@ -18,11 +18,12 @@ const AutoDXVKNVAPI = () => {
   const [installingDxvkNvapi, setInstallingDxvkNvapi] = React.useState(false)
 
   const handleAutoInstallDxvkNvapi = async () => {
-    const isProton = wineVersion.type === 'proton'
     let res = true
+    const isProton = wineVersion.type === 'proton'
+    setInstallingDxvkNvapi(true)
+
     if (!isProton) {
       const action = autoInstallDXVKNVAPI ? 'restore' : 'backup'
-      setInstallingDxvkNvapi(true)
       res = await window.api.toggleDXVKNVAPI({
         appName,
         action
@@ -30,6 +31,8 @@ const AutoDXVKNVAPI = () => {
 
       setInstallingDxvkNvapi(false)
     }
+
+    setInstallingDxvkNvapi(false)
     if (res) {
       setAutoInstallDXVKNVAPI(!autoInstallDXVKNVAPI)
     }
@@ -41,11 +44,16 @@ const AutoDXVKNVAPI = () => {
         htmlId="autodxvknvapi"
         value={autoInstallDXVKNVAPI}
         handleChange={handleAutoInstallDxvkNvapi}
+        title={
+          installingDxvkNvapi
+            ? t('please-wait', 'Please wait...')
+            : t(
+                'setting.autodxvknvapi',
+                'Auto Install/Update DXVK-NVAPI on Prefix'
+              )
+        }
+        fading={installingDxvkNvapi}
         disabled={installingDxvkNvapi}
-        title={t(
-          'setting.autodxvknvapi',
-          'Auto Install/Update DXVK-NVAPI on Prefix'
-        )}
       />
 
       <FontAwesomeIcon
