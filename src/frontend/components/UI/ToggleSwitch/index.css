@@ -1,5 +1,6 @@
 .toggleSwitchWrapper {
   display: grid;
+  position: relative;
   grid-template-areas: 'check text';
   grid-template-columns: min-content 1fr;
   align-items: center;
@@ -9,11 +10,6 @@
   white-space: pre-line;
 }
 
-.hiddenCheckbox {
-  display: none;
-}
-
-/* add fake checkbox */
 .toggleSwitchWrapper:before {
   content: '';
   display: inline-block;
@@ -22,14 +18,15 @@
   width: 20px;
   height: 20px;
   transition: 350ms;
-  border: 3px solid var(--accent);
-  border-radius: var(--space-3xs);
   grid-area: check;
-  color: var(--background);
-  font-size: var(--text-xl);
-  line-height: var(--space-lg-fixed);
-  font-weight: var(--extrabold);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.toggleSwitchWrapper input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 .toggleSwitchWrapper span {
@@ -39,31 +36,61 @@
   color: var(--text-default);
 }
 
-.toggleSwitchWrapper:hover span {
-  transition: 350ms;
-  color: var(--background);
+.visibleCheckbox {
+  position: absolute;
+  top: var(--space-sm);
+  left: 0;
+  height: 27px;
+  width: 27px;
+  background-color: var(--accent);
+  border-radius: var(--space-2xs);
+  border: 3px solid var(--accent);
 }
 
-.hiddenCheckbox:checked + .toggleSwitchWrapper:before {
-  content: '\2713';
-  background: var(--accent);
+.visibleCheckbox:after {
+  content: '';
+  position: absolute;
+  display: none;
 }
 
-.hiddenCheckbox:checked + .toggleSwitchWrapper span {
-  font-weight: var(--bold);
-  color: var(--accent);
+.visibleCheckbox {
+  background-color: var(--modal-background);
 }
 
-.hiddenCheckbox[disabled] + .toggleSwitchWrapper {
-  color: var(--icon-disabled);
+.toggleSwitchWrapper .hiddenCheckbox:checked ~ .visibleCheckbox:after {
+  display: block;
+}
+
+.toggleSwitchWrapper .hiddenCheckbox:not([checked]) ~ .visibleCheckbox {
+  background-color: var(--modal-background);
+}
+
+.toggleSwitchWrapper
+  .hiddenCheckbox:checked:not([disabled])
+  ~ .visibleCheckbox {
+  background-color: var(--accent);
+}
+
+.visibleCheckbox:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--modal-background);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.hiddenCheckbox {
+  display: none;
+}
+
+.hiddenCheckbox[disabled] + .visibleCheckbox {
   cursor: not-allowed;
-}
-
-.hiddenCheckbox[disabled] + .toggleSwitchWrapper:before {
+  background-color: var(--icon-disabled);
   border-color: var(--icon-disabled);
 }
 
-/* fade in and out animation */
 .toggleSwitchWrapper.fading {
   animation: fading infinite 1.5s;
 }

@@ -29,15 +29,6 @@ export default function ToggleSwitch(props: Props) {
 
   return (
     <>
-      <input
-        id={htmlId}
-        disabled={disabled}
-        checked={Boolean(value)}
-        type="checkbox"
-        onChange={handleChange}
-        aria-label={title}
-        className="hiddenCheckbox"
-      />
       <label
         className={classNames(`toggleSwitchWrapper Field ${extraClass}`, {
           isRTL,
@@ -47,6 +38,16 @@ export default function ToggleSwitch(props: Props) {
         title={description}
       >
         {title}
+        <input
+          id={htmlId}
+          disabled={disabled}
+          checked={Boolean(value)}
+          type="checkbox"
+          onChange={handleChange}
+          aria-label={title}
+          className="hiddenCheckbox"
+        />
+        <span className="visibleCheckbox"></span>
       </label>
     </>
   )
