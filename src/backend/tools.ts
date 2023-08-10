@@ -31,9 +31,9 @@ import {
   validWine
 } from './launcher'
 import { chmod } from 'fs/promises'
-import { getNvngxPath } from './utils/graphics/nvngx-finder'
 import {
   any_gpu_supports_version,
+  get_nvngx_path,
   get_vulkan_instance_version
 } from './utils/graphics/vulkan'
 import { lt as semverLt } from 'semver'
@@ -337,7 +337,7 @@ export const DXVK = {
     //locate and copy nvngx.dll to support DLSS on Nvidia GPUs
     if (tool === 'dxvk-nvapi' && action === 'backup') {
       try {
-        let nvngx_path = getNvngxPath()
+        let nvngx_path = get_nvngx_path()
         if (nvngx_path.length !== 0) {
           nvngx_path += '/nvidia/wine'
           const copyDlls = ['nvngx.dll', '_nvngx.dll']
