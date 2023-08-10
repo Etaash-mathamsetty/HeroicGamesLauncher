@@ -209,7 +209,7 @@ async function isEpicServiceOffline(
 const getLegendaryVersion = async () => {
   const abortID = 'legendary-version'
   const { stdout, error, abort } = await runLegendaryCommand(
-    ['--version'],
+    { subcommand: undefined, '--version': true },
     createAbortController(abortID)
   )
 
@@ -515,9 +515,10 @@ function clearCache(library?: 'gog' | 'legendary' | 'nile') {
     libraryStore.clear()
     gameInfoStore.clear()
     const abortID = 'legendary-cleanup'
-    runLegendaryCommand(['cleanup'], createAbortController(abortID)).then(() =>
-      deleteAbortController(abortID)
-    )
+    runLegendaryCommand(
+      { subcommand: 'cleanup' },
+      createAbortController(abortID)
+    ).then(() => deleteAbortController(abortID))
   }
   if (library === 'nile' || !library) {
     nileInstallStore.clear()
@@ -934,16 +935,16 @@ function killPattern(pattern: string) {
 }
 
 async function shutdownWine(gameSettings: GameSettings) {
-  if (gameSettings.wineVersion.type === 'proton') {
+  if (gameSettings.wineVersion.wineserver) {
+    spawnSync(gameSettings.wineVersion.wineserver, ['-k'], {
+      env: { WINEPREFIX: gameSettings.winePrefix }
+    })
+  } else {
     await runWineCommand({
       gameSettings,
       commandParts: ['wineboot', '-k'],
       wait: true,
       protonVerb: 'waitforexitandrun'
-    })
-  } else if (gameSettings.wineVersion.wineserver) {
-    spawnSync(gameSettings.wineVersion.wineserver, ['-k'], {
-      env: { WINEPREFIX: gameSettings.winePrefix }
     })
   }
 }
