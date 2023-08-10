@@ -638,7 +638,8 @@ ipcMain.handle('runWineCommand', async (e, args) => runWineCommand(args))
 ipcMain.handle('checkGameUpdates', async (): Promise<string[]> => {
   let oldGames: string[] = []
   const { autoUpdateGames } = GlobalConfig.get().getSettings()
-  for (const runner in libraryManagerMap) {
+  let runner: Runner = 'sideload'
+  for (runner in libraryManagerMap) {
     let gamesToUpdate = await libraryManagerMap[runner].listUpdateableGames()
     if (autoUpdateGames) {
       gamesToUpdate = autoUpdate(runner, gamesToUpdate)
