@@ -24,7 +24,12 @@ import i18next from 'i18next'
 import { dirname, join } from 'path'
 import { isOnline } from './online_monitor'
 import { showDialogBoxModalAuto } from './dialog/dialog'
-import { runWineCommand, setupWineEnvVars, validWine } from './launcher'
+import {
+  runWineCommand,
+  setupEnvVars,
+  setupWineEnvVars,
+  validWine
+} from './launcher'
 import { chmod } from 'fs/promises'
 import { getNvngxPath } from './utils/graphics/nvngx-finder'
 import {
@@ -452,6 +457,7 @@ export const Winetricks = {
         ...process.env,
         WINEPREFIX: winePrefix,
         PATH: `${winepath}:${process.env.PATH}`,
+        ...setupEnvVars(gameSettings),
         ...setupWineEnvVars(gameSettings, appName)
       }
 
@@ -464,6 +470,7 @@ export const Winetricks = {
         WINE: wineBin,
         WINE64: wineBin,
         PATH: `/opt/homebrew/bin:${process.env.PATH}`,
+        ...setupEnvVars(gameSettings),
         ...setupWineEnvVars(gameSettings, appName)
       }
 
