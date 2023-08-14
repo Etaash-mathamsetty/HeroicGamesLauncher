@@ -458,7 +458,7 @@ export async function runRunnerCommand(
   const { dir, bin } = getNileBin()
 
   // Set XDG_CONFIG_HOME to a custom, Heroic-specific location so user-made
-  // changes to Legendary's main config file don't affect us
+  // changes to nile's main config file don't affect us
   if (!options) {
     options = {}
   }
