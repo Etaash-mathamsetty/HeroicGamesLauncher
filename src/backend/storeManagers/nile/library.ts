@@ -457,7 +457,7 @@ export async function runRunnerCommand(
 ): Promise<ExecResult> {
   const { dir, bin } = getNileBin()
 
-  // Set XDG_CONFIG_HOME to a custom, Heroic-specific location so user-made
+  // Set NILE_CONFIG_PATH to a custom, Heroic-specific location so user-made
   // changes to nile's main config file don't affect us
   if (!options) {
     options = {}
@@ -465,7 +465,7 @@ export async function runRunnerCommand(
   if (!options.env) {
     options.env = {}
   }
-  options.env.XDG_CONFIG_HOME = dirname(nileConfigPath)
+  options.env.NILE_CONFIG_PATH = dirname(nileConfigPath)
 
   return callRunner(
     commandParts,
