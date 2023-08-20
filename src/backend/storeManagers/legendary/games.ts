@@ -599,37 +599,43 @@ export async function install(
     )
   }
 
-  let res = await runLegendaryCommand(command, createAbortController(appName), {
-    logFile: logPath,
-    onOutput,
-    logMessagePrefix: `Installing ${appName}`
-  })
-
-  deleteAbortController(appName)
-
-  // try to run the install again with higher memory limit
-  if (res.stderr.includes('MemoryError:')) {
-    command['--max-shared-memory'] = PositiveInteger.parse(5000)
-    res = await runLegendaryCommand(command, createAbortController(appName), {
-      logFile: logPath,
-      onOutput
-    })
+  if (getGameInfo(appName).thirdPartyManagedApp !== 'Origin') {
+    let res = await runLegendaryCommand(
+      command,
+      createAbortController(appName),
+      {
+        logFile: logPath,
+        onOutput,
+        logMessagePrefix: `Installing ${appName}`
+      }
+    )
 
     deleteAbortController(appName)
-  }
 
-  if (res.abort) {
-    return { status: 'abort' }
-  }
+    // try to run the install again with higher memory limit
+    if (res.stderr.includes('MemoryError:')) {
+      command['--max-shared-memory'] = PositiveInteger.parse(5000)
+      res = await runLegendaryCommand(command, createAbortController(appName), {
+        logFile: logPath,
+        onOutput
+      })
 
-  if (res.error) {
-    if (!res.error.includes('signal')) {
-      logError(
-        ['Failed to install', `${appName}:`, res.error],
-        LogPrefix.Legendary
-      )
+      deleteAbortController(appName)
     }
-    return { status: 'error', error: res.error }
+
+    if (res.abort) {
+      return { status: 'abort' }
+    }
+
+    if (res.error) {
+      if (!res.error.includes('signal')) {
+        logError(
+          ['Failed to install', `${appName}:`, res.error],
+          LogPrefix.Legendary
+        )
+      }
+      return { status: 'error', error: res.error }
+    }
   }
   addShortcuts(appName)
 
