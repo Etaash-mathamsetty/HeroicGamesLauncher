@@ -30,11 +30,6 @@ export const legendarySetup = async (appName: string) => {
     protonVerb: 'waitforexitandrun'
   })
 
-  // if not a ubisoft game, do nothing
-  if (gameInfo.install.executable !== 'UplayLaunch.exe') {
-    return
-  }
-
   if (
     gameInfo.thirdPartyManagedApp === 'Origin' &&
     !(await isOriginInstalled(appName))
@@ -49,6 +44,11 @@ export const legendarySetup = async (appName: string) => {
 
     await installOrigin(appName)
 
+    return
+  }
+
+  // if not a ubisoft game, do nothing
+  if (gameInfo.install.executable !== 'UplayLaunch.exe') {
     return
   }
 
