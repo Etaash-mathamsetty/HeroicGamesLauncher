@@ -20,11 +20,7 @@ export function hasStatus(
     label: string
   }>({ label: '' })
 
-  const {
-    thirdPartyManagedApp = undefined,
-    is_installed,
-    runner
-  } = { ...gameInfo }
+  const { is_installed, runner } = { ...gameInfo }
 
   React.useEffect(() => {
     const checkGameStatus = async () => {
@@ -40,15 +36,6 @@ export function hasStatus(
           percent: progress.percent
         })
         return setGameStatus({ status, folder, label })
-      }
-
-      if (thirdPartyManagedApp === 'Origin') {
-        const label = getStatusLabel({
-          status: 'notSupportedGame',
-          t,
-          runner
-        })
-        return setGameStatus({ status: 'notSupportedGame', label })
       }
 
       if (is_installed) {

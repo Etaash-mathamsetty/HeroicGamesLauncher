@@ -30,6 +30,10 @@ export const legendarySetup = async (appName: string) => {
     return
   }
 
+  if (gameInfo.thirdPartyManagedApp === 'Origin') {
+    logInfo('Origin game detected', LogPrefix.Backend)
+  }
+
   if (await isUbisoftInstalled(appName)) {
     // it's already installed, do nothing
     return

@@ -148,8 +148,7 @@ export default React.memo(function GamePage(): JSX.Element | null {
   const notAvailable = !gameAvailable && gameInfo.is_installed
   const notInstallable =
     gameInfo.installable !== undefined && !gameInfo.installable
-  const notSupportedGame =
-    gameInfo.runner !== 'sideload' && gameInfo.thirdPartyManagedApp === 'Origin'
+  const notSupportedGame = false
   const isOffline = connectivity.status !== 'online'
 
   const backRoute = location.state?.fromDM ? '/download-manager' : '/library'
