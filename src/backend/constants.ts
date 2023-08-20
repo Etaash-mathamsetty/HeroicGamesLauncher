@@ -58,6 +58,7 @@ const cachedUbisoftInstallerPath = join(
   'tools',
   'UbisoftConnectInstaller.exe'
 )
+const cachedOriginInstallerPath = join(appFolder, 'tools', 'EAappInstaller.exe')
 
 const {
   currentLogFile,
@@ -261,6 +262,7 @@ export {
   wineprefixFAQ,
   customThemesWikiLink,
   cachedUbisoftInstallerPath,
+  cachedOriginInstallerPath,
   gogdlAuthConfig,
   vulkanHelperBin,
   nileConfigPath,

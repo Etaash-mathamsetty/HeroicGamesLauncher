@@ -1,7 +1,10 @@
 import { sendFrontendMessage } from '../../main_window'
 import { logInfo, LogPrefix } from '../../logger/logger'
 import axios from 'axios'
-import { cachedUbisoftInstallerPath } from 'backend/constants'
+import {
+  cachedUbisoftInstallerPath,
+  cachedOriginInstallerPath
+} from 'backend/constants'
 import { logWarning } from 'backend/logger/logger'
 import { existsSync, createWriteStream, statSync } from 'graceful-fs'
 import { showDialogBoxModalAuto } from 'backend/dialog/dialog'
@@ -11,6 +14,8 @@ import { getGameInfo, getSettings, runWineCommandOnGame } from './games'
 
 const UBISOFT_INSTALLER_URL =
   'https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe'
+const ORIGIN_INSTALLER_URL =
+  'https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe'
 
 export const legendarySetup = async (appName: string) => {
   const gameInfo = getGameInfo(appName)
@@ -30,8 +35,21 @@ export const legendarySetup = async (appName: string) => {
     return
   }
 
-  if (gameInfo.thirdPartyManagedApp === 'Origin') {
+  if (
+    gameInfo.thirdPartyManagedApp === 'Origin' &&
+    !(await isOriginInstalled(appName))
+  ) {
     logInfo('Origin game detected', LogPrefix.Backend)
+
+    sendFrontendMessage('gameStatusUpdate', {
+      appName,
+      runner: 'legendary',
+      status: 'origin'
+    })
+
+    await installOrigin(appName)
+
+    return
   }
 
   if (await isUbisoftInstalled(appName)) {
@@ -68,6 +86,33 @@ const installUbisoftConnect = async (appName: string) => {
       message: i18next.t(
         'box.error.ubisoft-connect.message',
         'Installation of Ubisoft Connect in the game prefix failed. Check our wiki page at https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/How-to-install-Ubisoft-Connect-on-Linux-and-Mac to install it maunally.'
+      ),
+      type: 'ERROR'
+    })
+    return false
+  }
+}
+
+const installOrigin = async (appName: string) => {
+  try {
+    await downloadIfNotCached(cachedOriginInstallerPath, ORIGIN_INSTALLER_URL)
+
+    await runWineCommandOnGame(appName, {
+      commandParts: [cachedOriginInstallerPath, '/S']
+    })
+  } catch (error) {
+    logWarning(`Error installing Origin: ${error}`, LogPrefix.Backend)
+  }
+
+  if (await isOriginInstalled(appName)) {
+    return true
+  } else {
+    // it was not installed correctly, show an error
+    showDialogBoxModalAuto({
+      title: i18next.t('box.error.origin.title', 'EA App'),
+      message: i18next.t(
+        'box.error.origin.message',
+        'Installation of the EA app in the game prefix failed. Check our wiki page to install it maunally.'
       ),
       type: 'ERROR'
     })
@@ -132,4 +177,15 @@ const isUbisoftInstalled = async (appName: string) => {
   })
 
   return existsSync(ubisoftExecPath)
+}
+
+const isOriginInstalled = async (appName: string) => {
+  const gameSettings = await getSettings(appName)
+
+  const originExecPath = await getWinePath({
+    path: 'C:/Program Files/Electronic Arts/EA Desktop/EA Desktop/EADesktop.exe',
+    gameSettings
+  })
+
+  return existsSync(originExecPath)
 }

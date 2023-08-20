@@ -68,6 +68,10 @@
                 "generic": "An error has occurred! Try to Logout and Login on your Epic account. {{newline}}  {{error}}"
             },
             "moving": "Error Moving Game {{error}}",
+            "origin": {
+                "message": "Installation of the EA app in the game prefix failed. Check our wiki page to install it maunally.",
+                "title": "EA App"
+            },
             "title": "Error",
             "ubisoft-connect": {
                 "message": "Installation of Ubisoft Connect in the game prefix failed. Check our wiki page at https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/How-to-install-Ubisoft-Connect-on-Linux-and-Mac to install it manually.",
