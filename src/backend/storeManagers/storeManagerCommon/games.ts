@@ -12,6 +12,7 @@ import {
   prepareWineLaunch,
   runWineCommand,
   setupEnvVars,
+  setupWrapperEnvVars,
   setupWrappers
 } from '../../launcher'
 import { access, chmod } from 'fs/promises'
@@ -177,7 +178,11 @@ export async function launchGame(
       }
 
       const commandParts = shlex.split(launcherArgs ?? '')
-      const env = { ...process.env, ...setupEnvVars(gameSettings) }
+      const env = {
+        ...process.env,
+        ...setupEnvVars(gameSettings),
+        ...setupWrapperEnvVars({ appName, appRunner: runner })
+      }
 
       await callRunner(
         commandParts,
