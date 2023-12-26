@@ -523,6 +523,9 @@ function setupWineEnvVars(
   if (!gameSettings.enableFsync && wineVersion.type === 'proton') {
     ret.PROTON_NO_FSYNC = '1'
   }
+  if (gameSettings.enableMsync) {
+    ret.WINEMSYNC = '1'
+  }
   if (gameSettings.autoInstallDxvkNvapi && wineVersion.type === 'proton') {
     ret.PROTON_ENABLE_NVAPI = '1'
     ret.DXVK_NVAPI_ALLOW_OTHER_DRIVERS = '1'
